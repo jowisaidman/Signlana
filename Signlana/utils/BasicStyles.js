@@ -24,7 +24,7 @@ const basicStyles = StyleSheet.create({
         fontSize: 28,
         fontWeight: 'bold',
         color: '#000000',
-        marginBottom: '25%',
+        marginBottom: '20%',
     },
 });
 

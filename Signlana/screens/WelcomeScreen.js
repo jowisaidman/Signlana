@@ -1,20 +1,16 @@
 import React, { useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import basicStyles from './ScreenStyles';
+import basicStyles from '../utils/BasicStyles';
 
 const WelcomeScreen = ({ navigation }) => {
-
-    function helloWorld() {
-        console.log("Helloooo");
-    }
 
     return (
         <View style={basicStyles.container}>
             <Text style={basicStyles.title}>Add your wallet</Text>
-            <TouchableOpacity style={basicStyles.touchOpacityButton} onPress={() => helloWorld()}>
+            <TouchableOpacity style={basicStyles.touchOpacityButton} onPress={() => navigation.navigate('WalletSetup', { seedSource: 'create' })}>
                 <Text style={basicStyles.text}>Create Wallet</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={basicStyles.touchOpacityButton} onPress={() => helloWorld()}>
+            <TouchableOpacity style={basicStyles.touchOpacityButton} onPress={() => navigation.navigate('WalletSetup', { seedSource: 'import' })}>
                 <Text style={basicStyles.text}>Import Wallet</Text>
             </TouchableOpacity>
         </View>
