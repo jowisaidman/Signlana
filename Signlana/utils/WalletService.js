@@ -4,6 +4,7 @@ import CryptoJS from 'crypto-js';
 import * as bip39 from 'bip39';
 import { getRandomDataFromImage } from './ImageService';
 import { Buffer } from 'buffer';
+import { getValueFor } from './SecureStorage';
 
 global.Buffer = global.Buffer || Buffer;
 
@@ -29,3 +30,17 @@ export async function createNewSeedPhrase() {
     return mnemonic
 }
 
+export async function getWalletAddress() {
+    const walletMnemonic = await getValueFor("seedPhrase");
+    const seed = bip39.mnemonicToSeedSync(walletMnemonic);
+    const seedBuffer = Buffer.from(seed).subarray(0, 32);
+    const wallet = Keypair.fromSeed(seedBuffer);
+
+    return wallet.publicKey.toString();
+  }
+  
+  export function getWalletAlias(address) {
+    const firstPart = address.substring(0, 5);
+    const lastPart = address.substring(address.length - 5);
+    return `${firstPart}.....${lastPart}`;
+  }

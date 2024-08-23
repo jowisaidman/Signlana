@@ -4,6 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import WelcomeScreen from '../screens/WelcomeScreen';
 import WalletSetupScreen from '../screens/WalletSetupScreen';
+import HomeScreen from '../screens/HomeScreen';
 
 const Stack = createStackNavigator();
 
@@ -14,6 +15,7 @@ const StackNavigator = () => {
       <Stack.Navigator initialRouteName="Welcome" screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Welcome" component={WelcomeScreen} options={defaultStyle} />
         <Stack.Screen name="WalletSetup" component={WalletSetupScreen} options={defaultStyle}/>
+        <Stack.Screen name="Home" component={HomeScreen} options={defaultStyle}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

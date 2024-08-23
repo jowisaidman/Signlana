@@ -1,8 +1,10 @@
 import * as ImagePicker from 'expo-image-picker';
 import * as FileSystem from 'expo-file-system';
+import { Camera } from 'expo-camera';
 
 export async function getRandomDataFromImage() {
   const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+  const { statusCamera } = await Camera.requestCameraPermissionsAsync();
   if (status !== 'granted') {
     alert('Please provide camera roll permissions');
     return;

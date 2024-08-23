@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import SeedPhraseMenu from '../components/SeedPhrase/SeedPhraseMenu';
 import Loading from '../components/Loader';
 import { createNewSeedPhrase } from '../utils/WalletService';
 import basicStyles from '../utils/BasicStyles';
-import { getRandomDataFromImage } from '../utils/ImageService';
+import ContinueSetupWalletButton from '../components/ContinueSetupWalletButton';
 
 
 const WalletSetupScreen = ({ route, navigation }) => {
@@ -33,9 +33,7 @@ const WalletSetupScreen = ({ route, navigation }) => {
                     : 
                     <Text style={styles.importText}>This is your secret phrase, write it down in a secure place!</Text>}
                 <SeedPhraseMenu wallet={wallet} />
-                <TouchableOpacity style={basicStyles.touchOpacityButton} onPress={() => createNewSeedPhrase()}>
-                <Text style={basicStyles.text}>Pick photo to crete random seedphrase</Text>
-            </TouchableOpacity>
+                <ContinueSetupWalletButton seedPhrase={wallet ? wallet.join(' ') : wallet} navigation={navigation}/>
             </View>
         );
     }

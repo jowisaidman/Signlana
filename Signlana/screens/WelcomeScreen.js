@@ -1,9 +1,20 @@
 import React, { useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import basicStyles from '../utils/BasicStyles';
+import { getValueFor } from '../utils/SecureStorage';
 
 const WelcomeScreen = ({ navigation }) => {
-
+    useEffect(() => {
+        async function checkSeedPhrase() {
+            let seedPhrase = await getValueFor("seedPhrase");
+            if (seedPhrase) {
+                console.log("Seed phrase: ", seedPhrase);
+                navigation.navigate("Home");
+            }
+        }
+        checkSeedPhrase();
+    }, []); 
+    
     return (
         <View style={basicStyles.container}>
             <Text style={basicStyles.title}>Add your wallet</Text>
