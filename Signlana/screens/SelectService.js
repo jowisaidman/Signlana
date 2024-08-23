@@ -1,11 +1,35 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react'
 import WalletIcon from "../assets/sign-icon.png"
 import ImportWalletIcon from "../assets/pos-icon.png"
+import { Camera } from 'expo-camera'
 
 import {StyledView, StyledText, StyledTouchableOpacity, StyledImage} from "../components/Styled"
 import WalletPop from "../components/WalletPop"
 
 const SelectService = ({ navigation }) => {
+    const [hasPermission, setHasPermission] = useState(null);
+  
+    useEffect(() => {
+      (async () => {
+          const { status } = await Camera.requestCameraPermissionsAsync();
+          setHasPermission(status === 'granted');
+      })();
+      }, []);
+
+    if (hasPermission === null) {
+        return (
+            <StyledView className="flex-1 justify-center items-center bg-purple-300">
+                <StyledText className="text-black text-xl font-semibold">Requesting for camera permission</StyledText>
+            </StyledView>
+        )
+    }
+
+    if (hasPermission === false) {
+        <StyledView className="flex-1 justify-center items-center bg-purple-300">
+            <StyledText className="text-black text-xl font-semibold">No access to camera, please give permissions in settings</StyledText>
+        </StyledView>
+    }
+
 
     return (
         <StyledView className="flex-1 justify-center items-center bg-purple-300">

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import WalletIcon from "../assets/wallet-icon.png"
 import ImportWalletIcon from "../assets/import-wallet-icon.png"
 
@@ -11,7 +11,7 @@ const WelcomeScreen = ({ navigation }) => {
             let seedPhrase = await getValueFor("seedPhrase");
             if (seedPhrase) {
                 console.log("Seed phrase: ", seedPhrase);
-                navigation.navigate("Home");
+                navigation.navigate("SelectService");
             }
         }
         checkSeedPhrase();

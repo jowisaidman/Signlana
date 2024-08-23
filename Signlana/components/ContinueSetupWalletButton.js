@@ -6,7 +6,7 @@ const ContinueSetupWalletButton = ({seedPhrase, navigation}) => {
   
     const handleContinue = async () => {
         await save("seedPhrase", seedPhrase);
-        navigation.navigate('Home');
+        navigation.navigate('SelectService');
     }
 
     return (
