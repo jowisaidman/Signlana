@@ -1,6 +1,8 @@
-import React, { useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import basicStyles from '../utils/BasicStyles';
+import React from 'react';
+import WalletIcon from "../assets/wallet-icon.png"
+import ImportWalletIcon from "../assets/import-wallet-icon.png"
+
+import {StyledView, StyledText, StyledTouchableOpacity, StyledImage} from "../components/Styled"
 import { getValueFor } from '../utils/SecureStorage';
 
 const WelcomeScreen = ({ navigation }) => {
@@ -16,47 +18,29 @@ const WelcomeScreen = ({ navigation }) => {
     }, []); 
     
     return (
-        <View style={basicStyles.container}>
-            <Text style={basicStyles.title}>Add your wallet</Text>
-            <TouchableOpacity style={basicStyles.touchOpacityButton} onPress={() => navigation.navigate('SolWalletSetup', { seedSource: 'create' })}>
-                <Text style={basicStyles.text}>Create Solana Wallet</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={basicStyles.touchOpacityButton} onPress={() => navigation.navigate('SolWalletSetup', { seedSource: 'import' })}>
-                <Text style={basicStyles.text}>Import Solana Wallet</Text>
-            </TouchableOpacity>
+        <StyledView className="flex-1 justify-center items-center bg-purple-300">
+            <StyledText className="text-6xl text-purple-950 font-bold">Welcome!</StyledText>
+            <StyledText className="text-md text-purple-950 mb-6">Signala is a fast and secure cold-wallet like system!</StyledText>
+            <StyledView className="flex flex-wrap flex-row justify-between gap-4">        
+            <StyledTouchableOpacity
+                    className="bg-[#c59eee] border-2 border-purple-950 flex items-center pt-3 gap-2 h-40 w-40 rounded-xl"
+                    onPress={() => navigation.navigate('WalletSetup', { seedSource: 'create' })}
+                >
+                    <StyledText className="text-black text-xl font-semibold">Create Wallet</StyledText>
+                    <StyledImage source={WalletIcon} className='w-20 h-20'/>
+                </StyledTouchableOpacity>
+                <StyledTouchableOpacity
+                    className="bg-[#c59eee] border-2 border-purple-950 flex items-center pt-3 gap-2 h-40 w-40 rounded-xl"
+                    onPress={() => navigation.navigate('WalletSetup', { seedSource: 'import' })}
+                >
+                    <StyledText className="text-black text-xl font-semibold">Import Wallet</StyledText>
+                    <StyledImage source={ImportWalletIcon} className='w-20 h-20'/>
+                </StyledTouchableOpacity>
+            </StyledView>
 
-            <TouchableOpacity style={basicStyles.touchOpacityButton} onPress={() => navigation.navigate('EvmWalletSetup', { seedSource: 'create' })}>
-                <Text style={basicStyles.text}>Create EVM Wallet</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={basicStyles.touchOpacityButton} onPress={() => navigation.navigate('EvmWalletSetup', { seedSource: 'import' })}>
-                <Text style={basicStyles.text}>Import EVM Wallet</Text>
-            </TouchableOpacity>
-        </View>
+            <StyledText className="text-xl absolute bottom-3 text-purple-950 font-semibold underline">How it works? FAQ</StyledText>
+        </StyledView>
     );
 };
 
-
-const styles = StyleSheet.create({
-    title: {
-      fontSize: 28,
-      fontWeight: 'bold',
-      color: '#000000',
-      marginBottom: '25%',
-    },
-    touchOpacityButton: {
-        marginBottom: 25,
-        width: '80%',
-        alignItems: 'center',
-        padding: 10,
-        backgroundColor: '#116466',
-        borderRadius: 10
-    },
-    text: {
-        color: "#000000",
-        fontWeight: 'bold',
-        fontSize: 16
-    }
-});
-
-  
 export default WelcomeScreen;
