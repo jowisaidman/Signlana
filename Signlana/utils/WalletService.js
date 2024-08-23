@@ -1,23 +1,31 @@
 import { Keypair } from '@solana/web3.js';
-import bs58 from 'bs58';
+//import bs58 from 'bs58';
+import CryptoJS from 'crypto-js';
+import * as bip39 from 'bip39';
+import { getRandomDataFromImage } from './ImageService';
+import { Buffer } from 'buffer';
 
+global.Buffer = global.Buffer || Buffer;
 
-export function createNewSeedPhrase() {
-    // TODO: bring this from a random source (ie audio or photo)
-    const seed = Uint8Array.from([
-        1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16,
-        17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32
-      ]);
-      
-      // Generate a keypair from the seed
-      const wallet = Keypair.fromSeed(seed);
+export async function createNewSeedPhrase() {
 
-    // Get the public key
+    const randomData = await getRandomDataFromImage();
+
+    if (!randomData) {
+        return false;
+    }
+
+    const wordArray = CryptoJS.enc.Base64.parse(randomData);
+    const hash = CryptoJS.SHA256(wordArray);
+    const entropy = hash.toString(CryptoJS.enc.Hex).slice(0, 32);
+    const mnemonic = bip39.entropyToMnemonic(entropy);
+    const seed = bip39.mnemonicToSeedSync(mnemonic);
+    const seedBuffer = Buffer.from(seed).subarray(0, 32);
+    const wallet = Keypair.fromSeed(seedBuffer);
+
     console.log('Public Key:', wallet.publicKey.toString());
-
-    // Get the private key in bs58
-    const secretKeyBase58 = bs58.encode(wallet.secretKey);
-    console.log('Secret Key (Base58):', secretKeyBase58);
-    return wallet
+    
+    //const secretKeyBase58 = bs58.encode(wallet.secretKey);
+    return mnemonic
 }
 
