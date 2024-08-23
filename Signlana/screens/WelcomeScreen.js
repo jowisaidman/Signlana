@@ -18,11 +18,18 @@ const WelcomeScreen = ({ navigation }) => {
     return (
         <View style={basicStyles.container}>
             <Text style={basicStyles.title}>Add your wallet</Text>
-            <TouchableOpacity style={basicStyles.touchOpacityButton} onPress={() => navigation.navigate('WalletSetup', { seedSource: 'create' })}>
-                <Text style={basicStyles.text}>Create Wallet</Text>
+            <TouchableOpacity style={basicStyles.touchOpacityButton} onPress={() => navigation.navigate('SolWalletSetup', { seedSource: 'create' })}>
+                <Text style={basicStyles.text}>Create Solana Wallet</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={basicStyles.touchOpacityButton} onPress={() => navigation.navigate('WalletSetup', { seedSource: 'import' })}>
-                <Text style={basicStyles.text}>Import Wallet</Text>
+            <TouchableOpacity style={basicStyles.touchOpacityButton} onPress={() => navigation.navigate('SolWalletSetup', { seedSource: 'import' })}>
+                <Text style={basicStyles.text}>Import Solana Wallet</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity style={basicStyles.touchOpacityButton} onPress={() => navigation.navigate('EvmWalletSetup', { seedSource: 'create' })}>
+                <Text style={basicStyles.text}>Create EVM Wallet</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={basicStyles.touchOpacityButton} onPress={() => navigation.navigate('EvmWalletSetup', { seedSource: 'import' })}>
+                <Text style={basicStyles.text}>Import EVM Wallet</Text>
             </TouchableOpacity>
         </View>
     );

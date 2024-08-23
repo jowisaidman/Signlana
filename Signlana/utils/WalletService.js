@@ -5,6 +5,7 @@ import * as bip39 from 'bip39';
 import { getRandomDataFromImage } from './ImageService';
 import { Buffer } from 'buffer';
 import { getValueFor } from './SecureStorage';
+import * as ethers from 'ethers';
 
 global.Buffer = global.Buffer || Buffer;
 
@@ -27,6 +28,19 @@ export async function createNewSeedPhrase() {
     console.log('Public Key:', wallet.publicKey.toString());
     
     //const secretKeyBase58 = bs58.encode(wallet.secretKey);
+    return mnemonic
+}
+
+export async function createNewEvmSeedPhrase() {
+    const randomData = await getRandomDataFromImage();
+
+    if (!randomData) {
+        return false;
+    }
+    
+    const mnemonic = ethers.Mnemonic.entropyToPhrase(randomData); // TODO: check if I can add a password
+    //const wallet = ethers.Wallet.fromPhrase(mnemonic);
+
     return mnemonic
 }
 
