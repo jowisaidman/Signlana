@@ -1,5 +1,4 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import WelcomeScreen from '../screens/WelcomeScreen';
@@ -32,12 +31,5 @@ const StackNavigator = () => {
     </NavigationContainer>
   );
 };
-
-const styles = StyleSheet.create({
-    container: {
-      background: '#9945FF',
-      color: '#9945FF'
-    },
-  });
   
   export default StackNavigator;
