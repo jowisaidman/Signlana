@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput } from 'react-native';
+import { View, Text, Switch, TouchableOpacity, Image, TextInput } from 'react-native';
 import { styled } from 'nativewind';
 import RNPickerSelect from 'react-native-picker-select';
 
@@ -8,6 +8,7 @@ const StyledTouchableOpacity = styled(TouchableOpacity);
 const StyledImage = styled(Image);
 const StyledInput = styled(TextInput);
 const StyledPicker = styled(RNPickerSelect);
+const StyledSwitch = styled(Switch);
 
 export {
     StyledImage,
@@ -15,5 +16,6 @@ export {
     StyledTouchableOpacity,
     StyledView,
     StyledInput,
-    StyledPicker
+    StyledPicker,
+    StyledSwitch
 }

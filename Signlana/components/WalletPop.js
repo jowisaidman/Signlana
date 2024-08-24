@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import {StyledView, StyledText, StyledImage, StyledTouchableOpacity} from "./Styled"
 
 import QRCode from "../assets/qr-code.png"
@@ -6,13 +6,54 @@ import { getValueFor } from '../utils/SecureStorage'
 
 import * as SecureStore from 'expo-secure-store';
 
+import EVMIcon from "../assets/ethereum.png"
+import SOLIcon from "../assets/solana.png"
+import { getWalletAlias } from '../utils/WalletService';
+
+import { useStore } from '@nanostores/react'
+import { $currentWallet, setCurrentWallet } from '../utils/CurrentWalletStore';
 
 
-export default function WalletPop({wallet, navigation}) {
+export default function WalletPop({navigation}) {
     //Selection is open
     const [select, setSelect] = useState(false)
 
-    const solanaWallet = getValueFor("seedPhraseSolana") //TODO: check to pick / eth wallet here
+    const [wallets, setWallets] = useState({})
+
+    const currentWallet = useStore($currentWallet)
+
+    useEffect(() => {
+        (async() => {
+            const [ethereumWallet, solanaWallet] = await Promise.all([getValueFor("ethereumWallet") ,getValueFor("solanaWallet")])
+            if(currentWallet.wallet ==""){
+                setCurrentWallet(solanaWallet, "solana")
+            }
+            setWallets({
+                sol: solanaWallet,
+                eth: ethereumWallet
+            })
+        })()
+    }, [])
+
+    const changeWallet = (wallet, chain) => {
+        setCurrentWallet(wallet,chain)
+        setSelect(false)
+    }
+
+    if(select) return <StyledView className='absolute bg-purple-200 rounded-xl top-12 flex items-start p-3 justify-center'>
+        <StyledTouchableOpacity onPress={() => {changeWallet(wallets.eth, "ethereum")}} className='flex flex-row items-center gap-1'>
+            <StyledImage className='h-7 w-7 rounded-full bg-purple-100' source={EVMIcon}/>
+            <StyledText className='text-xs px-1 text-purple-950 font-bold'>
+                {wallets.eth}
+            </StyledText>
+        </StyledTouchableOpacity>
+        <StyledTouchableOpacity onPress={() => {changeWallet(wallets.sol, "solana")}} className='flex pt-2 flex-row items-center gap-1'>
+            <StyledImage className='h-7 w-7 rounded-full bg-purple-100' source={SOLIcon}/>
+            <StyledText className='text-xs px-1 text-purple-950 font-bold'>
+                {wallets.sol}
+            </StyledText>
+        </StyledTouchableOpacity>
+    </StyledView>
 
     return <StyledView className='absolute top-12 flex flex-row items-center gap-2'>
         <StyledTouchableOpacity onPress={() => {
@@ -22,13 +63,15 @@ export default function WalletPop({wallet, navigation}) {
             }} className='h-11 w-11 items-center p-4 justify-center rounded-full bg-purple-200'>
             <StyledImage source={QRCode} className='w-7 h-7'/>
         </StyledTouchableOpacity>
-        <StyledView className=" flex flex-row rounded-full  py-2 px-2 bg-purple-200">
-            <StyledView className='h-7 w-7 rounded-full bg-white'>
-            </StyledView>
+        <StyledTouchableOpacity onPress={() => {
+            setSelect(true)
+        }} className=" flex flex-row rounded-full  py-2 px-2 bg-purple-200">
+            <StyledImage source={currentWallet.chain == "solana" ? SOLIcon : EVMIcon} className='h-7 w-7 rounded-full bg-white'>
+            </StyledImage>
             <StyledText className='text-lg px-1 text-purple-950 font-semibold'>
-                {wallet.slice(0, 17)}...
+                {getWalletAlias(currentWallet.wallet ?? "")}
             </StyledText>
-        </StyledView>
+        </StyledTouchableOpacity>
         <StyledTouchableOpacity onPress={() => {navigation.navigate("YourWallet")}} className='h-11 w-11 items-center p-4 justify-center rounded-full bg-purple-200'>
             <StyledImage source={QRCode} className='w-7 h-7'/>
         </StyledTouchableOpacity>

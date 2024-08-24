@@ -9,10 +9,8 @@ import { getSolanaWalletAddress } from '../utils/WalletService';
 const WelcomeScreen = ({ navigation }) => {
     useEffect(() => {
         (async () => {
-            let seedPhraseEth = await getValueFor("seedPhraseEthereum");
-            let seedPhraseSolana = await getValueFor("seedPhraseSolana");
-            if (seedPhraseEth && seedPhraseSolana) {
-                console.log("Solana Wallet; ", await getSolanaWalletAddress())
+            let seedPhrase = await getValueFor("seedPhrase");
+            if (seedPhrase) {
                 navigation.navigate("SelectService");
             }
         })()

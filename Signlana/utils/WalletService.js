@@ -15,7 +15,7 @@ import {
 } from '@solana/web3.js'
 import 'react-native-get-random-values';
   
-  const BASE_URL_DEVNET = 'https://api.devnet.solana.com'; // TODO: bring from environment
+const BASE_URL_DEVNET = 'https://api.devnet.solana.com'; // TODO: bring from environment
 
 global.Buffer = global.Buffer || Buffer;
 
@@ -45,7 +45,7 @@ export async function createNewSeedPhrase(randomData) {
 }
 
 export async function getSolanaWalletAddress() {
-    const walletMnemonic = await getValueFor("seedPhraseSolana");
+    const walletMnemonic = await getValueFor("seedPhrase");
     const seed = bip39.mnemonicToSeedSync(walletMnemonic);
     const seedBuffer = Buffer.from(seed).subarray(0, 32);
     const wallet = Keypair.fromSeed(seedBuffer);
@@ -54,7 +54,7 @@ export async function getSolanaWalletAddress() {
 }
 
 export async function getSolanaWallet() {
-    const walletMnemonic = await getValueFor("seedPhraseSolana");
+    const walletMnemonic = await getValueFor("seedPhrase");
     const seed = bip39.mnemonicToSeedSync(walletMnemonic);
     const seedBuffer = Buffer.from(seed).subarray(0, 32);
     return Keypair.fromSeed(seedBuffer);

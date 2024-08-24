@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import SeedPhraseMenu from '../components/SeedPhrase/SeedPhraseMenu';
 import Loading from '../components/Loader';
-import { createNewSeedPhrase } from '../utils/WalletService';
+import { createNewSeedPhrase, getSolanaWalletAddress } from '../utils/WalletService';
 import basicStyles from '../utils/BasicStyles';
 import ContinueSetupWalletButton from '../components/ContinueSetupWalletButton';
 import {StyledText, StyledView} from '../components/Styled';
@@ -10,8 +10,7 @@ import { save } from '../utils/SecureStorage';
 
 import { getRandomDataFromImage } from '../utils/ImageService';
 
-
-
+import * as ethers from 'ethers';
 
 const WalletSetupScreen = ({ route, navigation }) => {
     const [wallet, setWallet] = useState(null);
@@ -23,9 +22,19 @@ const WalletSetupScreen = ({ route, navigation }) => {
                 const randomData = await getRandomDataFromImage();
                 let walletDetails = await createNewSeedPhrase(randomData);
                 await save("seedPhrase", walletDetails)
-                console.log("Details sin array: " + walletDetails)
+                // await save("ethereumWallet", ethers.Wallet.fromPhrase(walletDetails).address)
+                // await save("solanaWallet", getSolanaWalletAddress())
+                const solanaWallet = await getSolanaWalletAddress()
+
+                console.log({
+                    sol: solanaWallet,
+                    ethe:ethers.Wallet.fromPhrase(walletDetails).address
+                })
+      
+                await save("solanaWallet", solanaWallet)
+                await save("ethereumWallet", ethers.Wallet.fromPhrase(walletDetails).address)
+
                 walletDetails = walletDetails.split(" ");
-                console.log("Details con array: " + walletDetails)
                 setWallet(walletDetails)
             }
             console.log("Wallet: " + wallet)

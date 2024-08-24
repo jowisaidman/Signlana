@@ -3,40 +3,15 @@ import { View, StyleSheet } from 'react-native';
 import RowSeedPhraseMenu from './RowSeedPhraseMenu';
 import { StyledInput, StyledText, StyledView } from '../Styled';
 
-const PhraseList = ({ phrases }) =>
-  <>
-    <StyledView className='flex flex-row flex-wrap items-center justify-center gap-2'>
-      {
-        phrases.map(phrase => <StyledInput key={phrase} value={phrase} className='bg-purple-200 border-2 border-purple-950 rounded-xl p-2' />)
-      }
-    </StyledView>
-  </>
-
-
 const SeedPhraseMenu = ({wallet}) => {
   return (
-    <StyledView >
-      <StyledView>
-        {/* <StyledText>
-          Solana
-        </StyledText>
-        <StyledView className='flex flex-row flex-wrap items-center justify-center gap-2'>
-          {
-            wallet.sol.map(phrase => <StyledInput value={phrase} className='bg-purple-200 border-2 border-purple-950 rounded-xl p-2' />)
-          }
-        </StyledView> */}
-        <PhraseList phrases={wallet} />
-        {/* <PhraseList /> */}
-      </StyledView>
-
+    <StyledView className='flex flex-row flex-wrap'>
+        {
+        wallet.map(phrase => <StyledInput key={phrase} value={phrase} className='bg-purple-200 w-1/4 border-2 border-purple-950 rounded-xl p-2' />)
+      }
     </StyledView>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'column'
-  }
-});
 
 export default SeedPhraseMenu;
