@@ -64,14 +64,14 @@ export default function VerifyWalletGoplus({ navigation, route }) {
 
         console.log("Tx to sign: ", tx);
 
-        navigation.navigate('ShowQR', { "message": tx.toString(), screenTitle: "Evm Tx to Sign", nextScreenName: "ScanQR", nextScreenParams: {screenTitle: "Scan Signed Tx", nextScreenName: "SelectService", sendTransaction: true} }) //TODO: agregar chainId
+        navigation.navigate('ShowQR', { "message": tx.toString(), screenTitle: "Evm Tx to Sign", nextScreenName: "ScanQR", nextScreenParams: {screenTitle: "Scan Signed Tx", nextScreenName: "SelectService", sendTransaction: true, chain: chain} })
     }
 
     async function buildSolanaTx(amount, currency) {
         console.log("Currency: ", currency); // For now only SOL
         const receiverWallet = await getSolanaWalletAddress();
         const message = await createUnsignedSolanaTransaction(wallet, receiverWallet, amount);
-        navigation.navigate('ShowQR', { "message": message, screenTitle: "Solana Tx to Sign", nextScreenName: "ScanQR", nextScreenParams: {screenTitle: "Scan Signed Tx", nextScreenName: "SelectService", sendTransaction: true} }) //TODO: agregar chainId
+        navigation.navigate('ShowQR', { "message": message, screenTitle: "Solana Tx to Sign", nextScreenName: "ScanQR", nextScreenParams: {screenTitle: "Scan Signed Tx", nextScreenName: "SelectService", sendTransaction: true, chain: "solana"} })
     }
 
     async function buildUnsignedTx(chain, amount, currency) {
