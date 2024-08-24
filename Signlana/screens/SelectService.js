@@ -38,7 +38,7 @@ const SelectService = ({ navigation }) => {
             <StyledView className="flex flex-wrap flex-row justify-between gap-4">        
             <StyledTouchableOpacity
                     className="bg-[#c59eee] border-2 border-purple-950 flex items-center pt-3 gap-2 w-40 rounded-xl"
-                    onPress={() => navigation.navigate('WalletSetup', { seedSource: 'create' })}
+                    onPress={() => navigation.navigate('YourWallet')}
                 >
                     <StyledText className="text-black text-xl font-semibold">Signala Sign</StyledText>
                     <StyledImage source={WalletIcon} className='w-20 h-20'/>

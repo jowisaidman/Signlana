@@ -9,6 +9,7 @@ import YourWallet from '../screens/YourWallet';
 import PaymentDetail from '../screens/PaymentDetail';
 import VerifyWalletGoplus from '../screens/VerifyWalletGoplus';
 import ShowQRScreen from '../screens/ShowQRScreen';
+import ScanQRScreen from '../screens/ScanQRScreen';
 
 const Stack = createStackNavigator();
 
@@ -24,6 +25,7 @@ const StackNavigator = () => {
         <Stack.Screen name="VerifyWalletGoplus" component={VerifyWalletGoplus} />
 
         <Stack.Screen name="ShowQR" component={ShowQRScreen}/>
+        <Stack.Screen name="ScanQR" component={ScanQRScreen}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

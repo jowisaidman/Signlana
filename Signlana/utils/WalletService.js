@@ -52,6 +52,13 @@ export async function getSolanaWalletAddress() {
 
     return wallet.publicKey.toString();
 }
+
+export async function getSolanaWallet() {
+    const walletMnemonic = await getValueFor("seedPhraseSolana");
+    const seed = bip39.mnemonicToSeedSync(walletMnemonic);
+    const seedBuffer = Buffer.from(seed).subarray(0, 32);
+    return Keypair.fromSeed(seedBuffer);
+}
   
 export function getWalletAlias(address) {
     const firstPart = address.substring(0, 5);
@@ -93,7 +100,7 @@ export async function createUnsignedSolanaTransaction(senderPubkey, reiciverPubk
     return base64Transaction;
 }
 
-export function signTransaction(base64Transaction, senderPrivateKey) {
+export function signSolanaTransaction(base64Transaction, senderPrivateKey) {
     const transactionBuffer = Buffer.from(base64Transaction, 'base64');
     const transaction = Transaction.from(transactionBuffer);
 
@@ -109,7 +116,7 @@ export function signTransaction(base64Transaction, senderPrivateKey) {
     return signedTransactionBase64;
 }
 
-export async function sendTransactionToBlockchain(signedTransactionBase64) {
+export async function sendSolanaTransactionToBlockchain(signedTransactionBase64) {
   const signedTransactionBuffer = Buffer.from(signedTransactionBase64, 'base64');
 
   const signedTransaction = Transaction.from(signedTransactionBuffer);
