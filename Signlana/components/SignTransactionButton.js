@@ -1,17 +1,17 @@
 import React from 'react';
-import { signTransaction, sendTransactionToBlockchain } from '../utils/WalletService';
+import { signSolanaTransaction, sendSolanaTransactionToBlockchain } from '../utils/WalletService';
 import { StyledText, StyledTouchableOpacity } from './Styled'
 
 const SignTransactionButton = ({base64Transaction, senderPrivateKey, navigation}) => {
 
     async function createTransaction (base64Transaction, senderPrivateKey) {
         try { 
-            const signedTransaction = signTransaction(base64Transaction, senderPrivateKey);
+            const signedTransaction = signSolanaTransaction(base64Transaction, senderPrivateKey);
             console.log("Signed transaction:", signedTransaction);
             // TODO: Navigate to QR screen
             
             // TODO: just for testing
-            const signature = await sendTransactionToBlockchain(signedTransaction);
+            const signature = await sendSolanaTransactionToBlockchain(signedTransaction);
             console.log("Signature:", signature);
         } catch (error) {
             console.error('Error during transaction creation:', error);

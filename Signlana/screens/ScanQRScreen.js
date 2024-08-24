@@ -1,15 +1,30 @@
 
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {StyledView, StyledText, StyledTouchableOpacity} from "../components/Styled"
 import { CameraView } from 'expo-camera'
 import { styled } from 'nativewind/dist'
+import { sendSolanaTransactionToBlockchain } from '../utils/WalletService';
 
 const StyledCamera = styled(CameraView)
 
-
 const ScanQRScreen = ({ navigation, route }) => {
+    const [scannedData, setScannedData] = useState('')
+
+    useEffect(() => {
+        setTimeout(async () => {
+            if (scannedData) {
+                if (route.params.sendTransaction) {
+                    await sendSolanaTransactionToBlockchain(scannedData);
+                    navigation.navigate(route.params.nextScreenName)
+                } else {
+                    navigation.navigate(route.params.nextScreenName, {"data": scannedData})
+                }
+            }
+        }, 250)
+    }, [scannedData]); 
 
     const verifyWallet = (data) => {
+        setScannedData(data)
         console.log("Data: ", data)
     }
 

@@ -62,6 +62,13 @@ export default function YourWallet({ navigation }) {
                 </StyledView>
             </StyledView>
 
+            <StyledTouchableOpacity
+                        className="bg-purple-350 p-3 rounded-full mt-4"
+                        onPress={async () => navigation.navigate('ScanQR', {screenTitle: "Scan tx to Sign", nextScreenName: "SignMessage"})}
+                    >
+                        <StyledText className="text-purple-950 text-2xl text-center font-semibold">Scan tx to Sign</StyledText>
+            </StyledTouchableOpacity>
+
             <StyledTouchableOpacity onPress={() => { navigation.goBack() }} className="absolute top-12 left-5">
                 <StyledText className="text-lg bg-purple-200 font-semibold rounded-full px-4 py-2">
                     Go Back
