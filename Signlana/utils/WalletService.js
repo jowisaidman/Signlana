@@ -67,8 +67,8 @@ export async function createNewEvmSeedPhrase(randomData) {
     return mnemonic
 }
 
-export async function getWalletAddress() {
-    const walletMnemonic = await getValueFor("seedPhrase");
+export async function getSolanaWalletAddress() {
+    const walletMnemonic = await getValueFor("seedPhraseSolana");
     const seed = bip39.mnemonicToSeedSync(walletMnemonic);
     const seedBuffer = Buffer.from(seed).subarray(0, 32);
     const wallet = Keypair.fromSeed(seedBuffer);
@@ -82,7 +82,8 @@ export function getWalletAlias(address) {
     return `${firstPart}.....${lastPart}`;
 }
 
-export async function createUnsignedSolanaTransaction(senderPubkey, reiciverPubkey) {
+
+export async function createUnsignedSolanaTransaction(senderPubkey, reiciverPubkey, amountToTransferInSol) {
     const connection = new Connection(BASE_URL_DEVNET, 'confirmed');
 
     const senderPublicKey = new PublicKey(senderPubkey);
@@ -96,7 +97,7 @@ export async function createUnsignedSolanaTransaction(senderPubkey, reiciverPubk
         SystemProgram.transfer({
             fromPubkey: senderPublicKey,
             toPubkey: recipientPublicKey,
-            lamports: 0.001 * LAMPORTS_PER_SOL,
+            lamports: amountToTransferInSol * LAMPORTS_PER_SOL,
         })
     );
 
