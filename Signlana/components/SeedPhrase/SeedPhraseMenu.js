@@ -3,11 +3,8 @@ import { View, StyleSheet } from 'react-native';
 import RowSeedPhraseMenu from './RowSeedPhraseMenu';
 import { StyledInput, StyledText, StyledView } from '../Styled';
 
-const PhraseList = ({ phrases, chain }) =>
+const PhraseList = ({ phrases }) =>
   <>
-    <StyledText className='text-xl mb-3 text-purple-950 text-center font-semibold'>
-      {chain}
-    </StyledText>
     <StyledView className='flex flex-row flex-wrap items-center justify-center gap-2'>
       {
         phrases.map(phrase => <StyledInput key={phrase} value={phrase} className='bg-purple-200 border-2 border-purple-950 rounded-xl p-2' />)
@@ -16,7 +13,7 @@ const PhraseList = ({ phrases, chain }) =>
   </>
 
 
-const SeedPhraseMenu = ({ wallet: { sol, evm } }) => {
+const SeedPhraseMenu = ({wallet}) => {
   return (
     <StyledView >
       <StyledView>
@@ -28,8 +25,7 @@ const SeedPhraseMenu = ({ wallet: { sol, evm } }) => {
             wallet.sol.map(phrase => <StyledInput value={phrase} className='bg-purple-200 border-2 border-purple-950 rounded-xl p-2' />)
           }
         </StyledView> */}
-        <PhraseList chain={"Solana"} phrases={sol} />
-        <PhraseList chain={"EVM"} phrases={evm} />
+        <PhraseList phrases={wallet} />
         {/* <PhraseList /> */}
       </StyledView>
 

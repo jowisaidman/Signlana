@@ -23,7 +23,7 @@ function bytesToHex(bytes) {
     return Array.from(bytes).map(byte => byte.toString(16).padStart(2, '0')).join('');
 }
 
-export async function createNewSolSeedPhrase(randomData) {
+export async function createNewSeedPhrase(randomData) {
 
     if (!randomData) {
         return false;
@@ -37,33 +37,10 @@ export async function createNewSolSeedPhrase(randomData) {
     const seedBuffer = Buffer.from(seed).subarray(0, 32);
     const wallet = Keypair.fromSeed(seedBuffer);
 
-    console.log('Public Key:', wallet.publicKey.toString());
+    console.log('Solana Public Key:', wallet.publicKey.toString());
+    console.log("EVM wallet: ", ethers.Wallet.fromPhrase(mnemonic));
     
     //const secretKeyBase58 = bs58.encode(wallet.secretKey);
-    return mnemonic
-}
-
-export async function createNewEvmSeedPhrase(randomData) {
-
-    if (!randomData) {
-        return false;
-    }
-
-    // Tomar los primeros 10 caracteres de randomData
-    const firstTenChars = randomData.slice(0, 16);
-
-    // Convertir los primeros 10 caracteres a un Uint8Array
-    function toUint8Array(str) {
-        return new TextEncoder().encode(str);
-    }
-
-    const byteData = toUint8Array(firstTenChars);
-
-    // Pasar la cadena hexadecimal a entropyToPhrase
-    const mnemonic = ethers.Mnemonic.entropyToPhrase(byteData);
-
-    console.log("EVM wallet: ", ethers.Wallet.fromPhrase(mnemonic));
-
     return mnemonic
 }
 
@@ -148,13 +125,13 @@ export async function sendTransactionToBlockchain(signedTransactionBase64) {
 
 /// EVM functions
 
-export async function signMessage(message, mnemonic) {
+export async function signEvmTransaction(message, mnemonic) {
     const formattedMessage = JSON.parse(message);
     console.log(formattedMessage)
   
     const gasLimitHex = '0x' + formattedMessage.gasLimit.toString(16);
     const transaction = {
-      type: formattedMessage.type,
+      //type: formattedMessage.type,
       chainId: formattedMessage.chainId,
       nonce: formattedMessage.nonce,
       maxPriorityFeePerGas: ethers.parseUnits(formattedMessage.maxPriorityFeePerGas, 'wei').toString(),

@@ -12,13 +12,30 @@ import { getSolanaWalletAddress, createUnsignedSolanaTransaction } from '../util
 
 export default function PaymentDetail({ navigation }) {
 
+    async function buildUnsignedEvmTx() {
+        let tx = {
+            to: "0x1234567890123456789012345678901234567890",
+            value: "0x1234567890123456789012345678901234567890",
+            data: "0x1234567890123456789012345678901234567890",
+            chainId: 1,
+            nonce: 0,
+            gasLimit: 21000,
+            maxPriorityFeePerGas: 2,
+            maxFeePerGas: 3,
+            accessList: [],
+            data: "0x1234567890123456789012345678901234567890"
+        }
+
+        navigation.navigate('ShowQR', { "message": tx, screenTitle: "Evm Tx to Sign", nextScreenName: "ScanQR", nextScreenParams: {} })
+    }
+
     async function buildUnsignedTx() {
         // TODO: Va depender de la current chain
         const receiverWallet = await getSolanaWalletAddress();
         const senderWallet = "FH7amfL9RXfe4CmPjLQGLYWNxPvjMjRQ4AcdVDxtK4U8" //TODO: traer del verify wallet with goplus
         const message = await createUnsignedSolanaTransaction(senderWallet, receiverWallet, 0.001); //TODO: ultimo param es monto a transferir, vamos a tener que especificar currency tmb o hacer solo usdc (para hackathon creo que haria solo usdc)
         navigation.navigate('ShowQR', { "message": message, screenTitle: "Solana Tx to Sign", nextScreenName: "ScanQR", nextScreenParams: {} })
-    }
+    } 
 
     return (
         <StyledView className="flex-1 justify-center items-center bg-purple-300">
@@ -41,8 +58,6 @@ export default function PaymentDetail({ navigation }) {
                             className="w-full text-center text-4xl bg-gray-100 rounded-md p-2"
                         />
                     </StyledView>
-
-                    
 
                     <StyledTouchableOpacity
                         className="bg-purple-350 p-3 rounded-full mt-4"

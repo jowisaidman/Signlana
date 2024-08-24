@@ -6,8 +6,7 @@ import { StyledText } from './Styled';
 const ContinueSetupWalletButton = ({wallet, navigation}) => {
   
     const handleContinue = async () => {
-        await save("seedEVMPhrase", wallet.evm.join(" "));
-        await save("seedSolanaPhrase", wallet.sol.join(" "));
+        await save("seedPhrase", wallet.join(" "));
         navigation.navigate('SelectService');
     }
 

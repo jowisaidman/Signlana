@@ -5,7 +5,6 @@ import { createStackNavigator } from '@react-navigation/stack';
 import WelcomeScreen from '../screens/WelcomeScreen';
 import WalletSetupScreen from '../screens/WalletSetupScreen';
 import SelectService from '../screens/SelectService';
-import EvmWalletSetupScreen from '../screens/EvmWalletSetupScreen';
 import YourWallet from '../screens/YourWallet';
 import PaymentDetail from '../screens/PaymentDetail';
 import VerifyWalletGoplus from '../screens/VerifyWalletGoplus';
@@ -24,8 +23,6 @@ const StackNavigator = () => {
         <Stack.Screen name="PaymentDetail" component={PaymentDetail} />
         <Stack.Screen name="VerifyWalletGoplus" component={VerifyWalletGoplus} />
 
-        <Stack.Screen name="SolWalletSetup" component={WalletSetupScreen}/>
-        <Stack.Screen name="EvmWalletSetup" component={EvmWalletSetupScreen}/>
         <Stack.Screen name="ShowQR" component={ShowQRScreen}/>
       </Stack.Navigator>
     </NavigationContainer>
