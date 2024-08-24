@@ -82,7 +82,6 @@ export function getWalletAlias(address) {
     return `${firstPart}.....${lastPart}`;
 }
 
-
 export async function createUnsignedSolanaTransaction(senderPubkey, reiciverPubkey) {
     const connection = new Connection(BASE_URL_DEVNET, 'confirmed');
 
@@ -145,3 +144,30 @@ export async function sendTransactionToBlockchain(signedTransactionBase64) {
 
   return signature;
 }
+
+/// EVM functions
+
+export async function signMessage(message, mnemonic) {
+    const formattedMessage = JSON.parse(message);
+    console.log(formattedMessage)
+  
+    const gasLimitHex = '0x' + formattedMessage.gasLimit.toString(16);
+    const transaction = {
+      type: formattedMessage.type,
+      chainId: formattedMessage.chainId,
+      nonce: formattedMessage.nonce,
+      maxPriorityFeePerGas: ethers.parseUnits(formattedMessage.maxPriorityFeePerGas, 'wei').toString(),
+      maxFeePerGas: ethers.parseUnits(formattedMessage.maxFeePerGas, 'wei').toString(),
+      gasLimit: gasLimitHex,
+      to: formattedMessage.to,
+      value: ethers.parseUnits(formattedMessage.value, 'ether').toString(), 
+      data: formattedMessage.data,
+      accessList: formattedMessage.accessList
+    }
+  
+    console.log("Transaction: ", transaction);
+  
+    const wallet = new ethers.Wallet.fromPhrase(mnemonic);
+  
+    return await wallet.signTransaction(transaction);
+  }
