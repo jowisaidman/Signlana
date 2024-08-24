@@ -6,6 +6,8 @@ import { SafeAreaView } from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
 
 import GoplusIcon from "../assets/goplus.png"
+import CreateUnsignedTransactionButton from '../components/CreateUnsignedTransactionButton';
+import SignTransactionButton from '../components/SignTransactionButton';
 
 
 export default function PaymentDetail({ navigation }) {
@@ -46,6 +48,8 @@ export default function PaymentDetail({ navigation }) {
                         <StyledText className="text-purple-200 text-left text-md font-light">Verify wallet with</StyledText>
                         <StyledImage className="w-[70%] h-9 " tintColor='#e9d5ff' source={GoplusIcon}></StyledImage>
                     </StyledTouchableOpacity>
+                    <CreateUnsignedTransactionButton senderPubkey="FH7amfL9RXfe4CmPjLQGLYWNxPvjMjRQ4AcdVDxtK4U8" receiverPubkey="JDbbKjTrHesbsQySLfPSRQZj6fgjeuVoDhZhFe5tMT4a"/>
+                    <SignTransactionButton base64Transaction="AQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAED1CRaPAeUIperwFfXTnq/xMhRjdOOR70jpmhS11dssvH/0MKwQPzslwH6Rf/FNm7s/Q8LsHJZbKzwLpPsv6zUhwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAwIorgC3VANx1UO4KH+kEJobHVAbClAPa8fetQ2j76XgBAgIAAQwCAAAAQEIPAAAAAAA=" senderPrivateKey="YOUR_KEY"/>
                 </StyledView>
             </SafeAreaView>
 

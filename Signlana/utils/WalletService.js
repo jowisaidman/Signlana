@@ -1,11 +1,21 @@
-import { Keypair } from '@solana/web3.js';
-//import bs58 from 'bs58';
+import bs58 from 'bs58';
 import CryptoJS from 'crypto-js';
 import * as bip39 from 'bip39';
 import { getRandomDataFromImage } from './ImageService';
 import { Buffer } from 'buffer';
 import { getValueFor } from './SecureStorage';
 import * as ethers from 'ethers';
+import {
+    Connection,
+    PublicKey,
+    Transaction,
+    SystemProgram,
+    LAMPORTS_PER_SOL,
+    Keypair,
+} from '@solana/web3.js'
+import 'react-native-get-random-values';
+  
+  const BASE_URL_DEVNET = 'https://api.devnet.solana.com'; // TODO: bring from environment
 
 global.Buffer = global.Buffer || Buffer;
 
@@ -73,4 +83,68 @@ export function getWalletAlias(address) {
     const firstPart = address.substring(0, 5);
     const lastPart = address.substring(address.length - 5);
     return `${firstPart}.....${lastPart}`;
+}
+
+
+export async function createUnsignedSolanaTransaction(senderPubkey, reiciverPubkey) {
+    const connection = new Connection(BASE_URL_DEVNET, 'confirmed');
+
+    const senderPublicKey = new PublicKey(senderPubkey);
+    const recipientPublicKey = new PublicKey(reiciverPubkey);
+
+    const { blockhash, lastValidBlockHeight } = await connection.getLatestBlockhash();
+
+    const transaction = new Transaction();
+
+    transaction.add(
+        SystemProgram.transfer({
+            fromPubkey: senderPublicKey,
+            toPubkey: recipientPublicKey,
+            lamports: 0.001 * LAMPORTS_PER_SOL,
+        })
+    );
+
+    transaction.recentBlockhash = blockhash;
+    transaction.lastValidBlockHeight = lastValidBlockHeight;
+    transaction.feePayer = senderPublicKey;
+
+    const serializedTransaction = transaction.serialize({
+      requireAllSignatures: false,
+    });
+
+    const base64Transaction = serializedTransaction.toString('base64');
+
+    console.log('Base64 Unsigned Transaction:', base64Transaction);
+
+    return base64Transaction;
+}
+
+export function signTransaction(base64Transaction, senderPrivateKey) {
+    const transactionBuffer = Buffer.from(base64Transaction, 'base64');
+    const transaction = Transaction.from(transactionBuffer);
+
+    const secretKeyUint8Array = bs58.decode(senderPrivateKey);
+  
+    const senderKeypair = Keypair.fromSecretKey(new Uint8Array(secretKeyUint8Array));
+  
+    transaction.sign(senderKeypair);
+  
+    const signedTransactionBase64 = transaction.serialize().toString('base64');
+    console.log('Signed Transaction (Base64):', signedTransactionBase64);
+  
+    return signedTransactionBase64;
+}
+
+export async function sendTransactionToBlockchain(signedTransactionBase64) {
+  const signedTransactionBuffer = Buffer.from(signedTransactionBase64, 'base64');
+
+  const signedTransaction = Transaction.from(signedTransactionBuffer);
+
+  const connection = new Connection(BASE_URL_DEVNET, 'confirmed');
+
+  const signature = await connection.sendRawTransaction(signedTransaction.serialize());
+
+  console.log('Transaction Signature:', signature);
+
+  return signature;
 }
