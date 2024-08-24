@@ -47,7 +47,7 @@ const SelectService = ({ navigation }) => {
                 </StyledTouchableOpacity>
                 <StyledTouchableOpacity
                     className="bg-[#c59eee] border-2 border-purple-950 flex items-center py-3 gap-2 w-40 rounded-xl"
-                    onPress={() => navigation.navigate('WalletSetup', { seedSource: 'import' })}
+                    onPress={() => navigation.navigate('PaymentDetail')}
                 >
                     <StyledText className="text-black text-xl font-semibold">Signala Pos</StyledText>
                     <StyledImage source={ImportWalletIcon} className='w-20 h-20'/>
@@ -55,7 +55,7 @@ const SelectService = ({ navigation }) => {
                     <StyledText className="text-black text font-ligth  italic font-semibold">Works online</StyledText>
                 </StyledTouchableOpacity>
             </StyledView>
-            <WalletPop wallet={"0x1D1479C185d32EB90533a08b36B3CFa5F84A0E6B"}/>
+            <WalletPop navigation={navigation} wallet={"0x1D1479C185d32EB90533a08b36B3CFa5F84A0E6B"}/>
         </StyledView>
     );
 };
