@@ -24,17 +24,19 @@ export default function PaymentDetail({ navigation }) {
                         <StyledText className="text-purple-950 text-lg font-semibold text font-ligth mr-2 mb-1">
                             Chain
                         </StyledText>
-                        <Dropdown value="solana" onValueChange={(c) => setChain(c)} options={[
+                        <Dropdown value='solana' onValueChange={(c) => setChain(c)} options={[
                             { label: 'SOLANA', value: 'solana' },
-                            { label: 'ETHEREUM', value: 'ethereum' },
-                            { label: 'ARBITRUM', value: 'arbitrum' },
+                            { label: 'ETHEREUM', value: 'Ethereum' },
+                            { label: 'ARBITRUM', value: 'Arbitrum' },
+                            { label: 'POLYGON', value: 'Polygon' },
+                            { label: 'ETHEREUM SEPOLIA', value: 'EthereumSepolia' },
                         ]} />
                     </StyledView>
                     <StyledView className="mb-4">
                     <StyledText className="text-purple-950 text-lg font-semibold text font-ligth mr-2 mb-1">
                             Currency
                         </StyledText>
-                        <Dropdown value="usdc" onValueChange={(c) => setCurrency(c)} options={[
+                        <Dropdown value='usdc' onValueChange={(c) => setCurrency(c)} options={[
                             { label: 'USDC', value: 'usdc' },
                             { label: 'SOL', value: 'sol' },
                             { label: 'ETH', value: 'eth' },

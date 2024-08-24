@@ -3,7 +3,8 @@ import { StyledView, StyledText, StyledTouchableOpacity, StyledInput, StyledPick
 import { CameraView } from 'expo-camera'
 import { styled } from 'nativewind/dist'
 import { SafeAreaView } from 'react-native';
-import { getSolanaWalletAddress, createUnsignedSolanaTransaction } from '../utils/WalletService';
+import { getSolanaWalletAddress, createUnsignedSolanaTransaction, getEVMWalletAddress, getNonce } from '../utils/WalletService';
+import { network } from './YourWallet';
 
 const Labels = {
     "blacklist_doubt": "Blacklist",
@@ -42,22 +43,28 @@ export default function VerifyWalletGoplus({ navigation, route }) {
     const [wallet, setWallet] = useState("")
 
     console.log({ verificationData })
+    console.log(route.params)
 
-    async function buildUnsignedEvmTx() {
+    async function buildUnsignedEvmTx(chain, amount, currency) {
+        const receiverWallet = await getEVMWalletAddress(); 
+        console.log("Currency: ", currency); // For now only ETH
+        const chainId = network["ethereum"][chain]["chainId"];
+        console.log("EVM address:", receiverWallet)
         let tx = {
-            to: "0x1234567890123456789012345678901234567890",
-            value: "0x1234567890123456789012345678901234567890",
-            data: "0x1234567890123456789012345678901234567890",
-            chainId: 1,
-            nonce: 0,
-            gasLimit: 21000,
+            to: receiverWallet["address"],
+            value: amount,
+            chainId,
+            nonce: getNonce(receiverWallet, chainId),
+            gasLimit: 21000, // getGasPrice(chainId)
             maxPriorityFeePerGas: 2,
             maxFeePerGas: 3,
             accessList: [],
-            data: "0x1234567890123456789012345678901234567890"
+            data: "0x" //TODO: check for usdc
         }
 
-        navigation.navigate('ShowQR', { "message": tx, screenTitle: "Evm Tx to Sign", nextScreenName: "ScanQR", nextScreenParams: {screenTitle: "Scan Signed Tx", nextScreenName: "SelectService", sendTransaction: true} }) //TODO: agregar chainId
+        console.log("Tx to sign: ", tx);
+
+        navigation.navigate('ShowQR', { "message": tx.toString(), screenTitle: "Evm Tx to Sign", nextScreenName: "ScanQR", nextScreenParams: {screenTitle: "Scan Signed Tx", nextScreenName: "SelectService", sendTransaction: true} }) //TODO: agregar chainId
     }
 
     async function buildSolanaTx(amount, currency) {
@@ -70,8 +77,8 @@ export default function VerifyWalletGoplus({ navigation, route }) {
     async function buildUnsignedTx(chain, amount, currency) {
         if (chain === 'solana') {
             await buildSolanaTx(amount, currency);
-        } else if (chain === 'ethereum') {
-            await buildUnsignedEvmTx(); //TODO: revisar
+        } else {
+            await buildUnsignedEvmTx(chain, amount, currency);
         }
     }
 

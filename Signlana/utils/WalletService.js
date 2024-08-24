@@ -133,6 +133,11 @@ export async function sendSolanaTransactionToBlockchain(signedTransactionBase64)
 
 /// EVM functions
 
+export async function getEVMWalletAddress() {
+    const walletMnemonic = await getValueFor("seedPhrase");
+    return ethers.Wallet.fromPhrase(walletMnemonic);
+}
+
 function getEthersProvider(chainId) {
     let provider;
     // TODO: actualizar con los valores de app.json

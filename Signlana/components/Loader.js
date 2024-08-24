@@ -1,6 +1,5 @@
 import React from 'react';
-import {ActivityIndicator, View, Text} from 'react-native';
-import basicStyles from '../utils/BasicStyles';
+import {ActivityIndicator} from 'react-native';
 import { StyledText, StyledView } from './Styled';
 
 export default function Loading({text}) {
