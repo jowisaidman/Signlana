@@ -6,11 +6,20 @@ import { SafeAreaView } from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
 
 import GoplusIcon from "../assets/goplus.png"
-import CreateUnsignedTransactionButton from '../components/CreateUnsignedTransactionButton';
-import SignTransactionButton from '../components/SignTransactionButton';
+import { getSolanaWalletAddress, createUnsignedSolanaTransaction } from '../utils/WalletService';
+
 
 
 export default function PaymentDetail({ navigation }) {
+
+    async function buildUnsignedTx() {
+        // TODO: Va depender de la current chain
+        const receiverWallet = await getSolanaWalletAddress();
+        const senderWallet = "FH7amfL9RXfe4CmPjLQGLYWNxPvjMjRQ4AcdVDxtK4U8" //TODO: traer del verify wallet with goplus
+        const message = await createUnsignedSolanaTransaction(senderWallet, receiverWallet, 0.001); //TODO: ultimo param es monto a transferir, vamos a tener que especificar currency tmb o hacer solo usdc (para hackathon creo que haria solo usdc)
+        navigation.navigate('ShowQR', { "message": message, screenTitle: "Solana Tx to Sign", nextScreenName: "ScanQR", nextScreenParams: {} })
+    }
+
     return (
         <StyledView className="flex-1 justify-center items-center bg-purple-300">
                     <StyledText className="text-4xl font-semibold mb-4 text-center">Payment Details</StyledText>
@@ -37,7 +46,7 @@ export default function PaymentDetail({ navigation }) {
 
                     <StyledTouchableOpacity
                         className="bg-purple-350 p-3 rounded-full mt-4"
-                        onPress={() => navigation.navigate('NextScreen')}
+                        onPress={async () => await buildUnsignedTx()} //TODO: volar este boton, que en el point el usuario escanee la wallet del otro si o si para saber aramar de tx solana
                     >
                         <StyledText className="text-purple-950 text-2xl text-center font-semibold">Next</StyledText>
                     </StyledTouchableOpacity>
@@ -48,8 +57,6 @@ export default function PaymentDetail({ navigation }) {
                         <StyledText className="text-purple-200 text-left text-md font-light">Verify wallet with</StyledText>
                         <StyledImage className="w-[70%] h-9 " tintColor='#e9d5ff' source={GoplusIcon}></StyledImage>
                     </StyledTouchableOpacity>
-                    <CreateUnsignedTransactionButton senderPubkey="FH7amfL9RXfe4CmPjLQGLYWNxPvjMjRQ4AcdVDxtK4U8" receiverPubkey="JDbbKjTrHesbsQySLfPSRQZj6fgjeuVoDhZhFe5tMT4a"/>
-                    <SignTransactionButton base64Transaction="AQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAED1CRaPAeUIperwFfXTnq/xMhRjdOOR70jpmhS11dssvH/0MKwQPzslwH6Rf/FNm7s/Q8LsHJZbKzwLpPsv6zUhwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAwIorgC3VANx1UO4KH+kEJobHVAbClAPa8fetQ2j76XgBAgIAAQwCAAAAQEIPAAAAAAA=" senderPrivateKey="YOUR_KEY"/>
                 </StyledView>
             </SafeAreaView>
 
