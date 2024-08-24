@@ -9,6 +9,10 @@ import * as ethers from 'ethers';
 
 global.Buffer = global.Buffer || Buffer;
 
+function bytesToHex(bytes) {
+    return Array.from(bytes).map(byte => byte.toString(16).padStart(2, '0')).join('');
+}
+
 export async function createNewSeedPhrase() {
 
     const randomData = await getRandomDataFromImage();
@@ -37,9 +41,21 @@ export async function createNewEvmSeedPhrase() {
     if (!randomData) {
         return false;
     }
-    
-    const mnemonic = ethers.Mnemonic.entropyToPhrase(randomData); // TODO: check if I can add a password
-    //const wallet = ethers.Wallet.fromPhrase(mnemonic);
+
+    // Tomar los primeros 10 caracteres de randomData
+    const firstTenChars = randomData.slice(0, 16);
+
+    // Convertir los primeros 10 caracteres a un Uint8Array
+    function toUint8Array(str) {
+        return new TextEncoder().encode(str);
+    }
+
+    const byteData = toUint8Array(firstTenChars);
+
+    // Pasar la cadena hexadecimal a entropyToPhrase
+    const mnemonic = ethers.Mnemonic.entropyToPhrase(byteData);
+
+    console.log("EVM wallet: ", ethers.Wallet.fromPhrase(mnemonic));
 
     return mnemonic
 }
@@ -51,10 +67,10 @@ export async function getWalletAddress() {
     const wallet = Keypair.fromSeed(seedBuffer);
 
     return wallet.publicKey.toString();
-  }
+}
   
-  export function getWalletAlias(address) {
+export function getWalletAlias(address) {
     const firstPart = address.substring(0, 5);
     const lastPart = address.substring(address.length - 5);
     return `${firstPart}.....${lastPart}`;
-  }
+}
