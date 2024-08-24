@@ -11,6 +11,7 @@ import PaymentDetail from '../screens/PaymentDetail';
 import VerifyWalletGoplus from '../screens/VerifyWalletGoplus';
 import ShowQRScreen from '../screens/ShowQRScreen';
 import ScanQRScreen from '../screens/ScanQRScreen';
+import SignMessageScreen from '../screens/SignMessageScreen';
 
 const Stack = createStackNavigator();
 
@@ -29,6 +30,7 @@ const StackNavigator = () => {
         <Stack.Screen name="EvmWalletSetup" component={EvmWalletSetupScreen}/>
         <Stack.Screen name="ShowQR" component={ShowQRScreen}/>
         <Stack.Screen name="ScanQR" component={ScanQRScreen}/>
+        <Stack.Screen name="SignMessage" component={SignMessageScreen}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -4,6 +4,7 @@ import ImportWalletIcon from "../assets/import-wallet-icon.png"
 
 import {StyledView, StyledText, StyledTouchableOpacity, StyledImage} from "../components/Styled"
 import { getValueFor } from '../utils/SecureStorage';
+import { getSolanaWalletAddress } from '../utils/WalletService';
 
 const WelcomeScreen = ({ navigation }) => {
     useEffect(() => {
@@ -11,6 +12,7 @@ const WelcomeScreen = ({ navigation }) => {
             let seedPhraseEth = await getValueFor("seedPhraseEthereum");
             let seedPhraseSolana = await getValueFor("seedPhraseSolana");
             if (seedPhraseEth && seedPhraseSolana) {
+                console.log("Solana Wallet; ", await getSolanaWalletAddress())
                 navigation.navigate("SelectService");
             }
         })()

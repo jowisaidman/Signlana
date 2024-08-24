@@ -124,6 +124,7 @@ export async function createUnsignedSolanaTransaction(senderPubkey, reiciverPubk
 }
 
 export function signSolanaTransaction(base64Transaction, senderPrivateKey) {
+    console.log("TX TO SIGN:", base64Transaction);
     const transactionBuffer = Buffer.from(base64Transaction, 'base64');
     const transaction = Transaction.from(transactionBuffer);
 
