@@ -3,11 +3,10 @@ import { StyledView, StyledInput, StyledText, StyledImage, StyledTouchableOpacit
 
 import { SafeAreaView } from 'react-native';
 
-import RNPickerSelect from 'react-native-picker-select';
-
 import GoplusIcon from "../assets/goplus.png"
 
 
+import Dropdown from 'react-native-input-select';
 
 export default function PaymentDetail({ navigation }) {
     const [currency, setCurrency] = useState('usdc');
@@ -16,30 +15,30 @@ export default function PaymentDetail({ navigation }) {
 
     return (
         <StyledView className="flex-1 justify-center items-center bg-purple-300">
-                    <StyledText className="text-4xl font-semibold mb-4 text-center">Payment Details</StyledText>
+            <StyledText className="text-4xl font-semibold mb-4 text-center">Payment Details</StyledText>
 
             <SafeAreaView>
                 {/* <StyledInput type="number" className="w-20 h-10 bg-white"></StyledInput> */}
                 <StyledView className=" p-4 rounded-xl w-72 max-w-sm">
-                <StyledView className="mb-4 flex-row">
-                        <StyledText className="text-black text font-ligth mr-2">
-                            Chain:
+                    <StyledView>
+                        <StyledText className="text-purple-950 text-lg font-semibold text font-ligth mr-2 mb-1">
+                            Chain
                         </StyledText>
-                        <RNPickerSelect value="solana" onValueChange={(c) => setChain(c)} items={[
+                        <Dropdown value="solana" onValueChange={(c) => setChain(c)} options={[
                             { label: 'SOLANA', value: 'solana' },
                             { label: 'ETHEREUM', value: 'ethereum' },
                             { label: 'ARBITRUM', value: 'arbitrum' },
-                        ]} style={{backgroundColor: "red"}} />
+                        ]} />
                     </StyledView>
-                <StyledView className="mb-4 flex-row">
-                        <StyledText className="text-black text font-ligth mr-2">
-                            Currency:
+                    <StyledView className="mb-4">
+                    <StyledText className="text-purple-950 text-lg font-semibold text font-ligth mr-2 mb-1">
+                            Currency
                         </StyledText>
-                        <RNPickerSelect value="usdc" onValueChange={(c) => setCurrency(c)} items={[
+                        <Dropdown value="usdc" onValueChange={(c) => setCurrency(c)} options={[
                             { label: 'USDC', value: 'usdc' },
                             { label: 'SOL', value: 'sol' },
                             { label: 'ETH', value: 'eth' },
-                        ]} style={{backgroundColor: "red"}} />
+                        ]} />
                     </StyledView>
                     <StyledView className="mb-4">
                         <StyledInput
@@ -52,7 +51,7 @@ export default function PaymentDetail({ navigation }) {
 
                     <StyledTouchableOpacity
                         className="border-2 bg-purple-950 border-purple-900 flex items-center gap-1 py-2 rounded-full mt-4"
-                        onPress={() => navigation.navigate('VerifyWalletGoplus', {chain: chain, amount: amount, currency: currency})}
+                        onPress={() => navigation.navigate('VerifyWalletGoplus', { chain: chain, amount: amount, currency: currency })}
                     >
                         <StyledText className="text-purple-200 text-left text-md font-light">Verify wallet with</StyledText>
                         <StyledImage className="w-[70%] h-9 " tintColor='#e9d5ff' source={GoplusIcon}></StyledImage>
