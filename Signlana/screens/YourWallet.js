@@ -1,8 +1,10 @@
 import React from 'react'
 import { StyledView, StyledImage, StyledText, StyledTouchableOpacity } from '../components/Styled'
+import { Linking } from 'react-native';
 
 import ShareIcon from "../assets/share-icon.png"
 import CopyIcon from "../assets/copy-icon.png"
+import EthereumIcon from "../assets/ethereum-icon.png"
 
 import QRCode from "react-native-qrcode-svg"
 
@@ -18,6 +20,10 @@ export default function YourWallet({ navigation }) {
         await Clipboard.setStringAsync(wallet);
         ToastAndroid.show('Wallet address copied to clipboard!', ToastAndroid.SHORT);
     };
+
+    const openExplorer = () => {    
+        Linking.openURL(`https://etherscan.io/address/${wallet}`);
+    }
 
     const shareWallet = async () => {
         try {
@@ -38,6 +44,9 @@ export default function YourWallet({ navigation }) {
             <StyledView className="flex items-center justify-center ">
                 <QRCode size={250} value={wallet} />
                 <StyledText className="bg-purple-350 my-5 px-3 py-2 font-semibold rounded-full">
+                    Network: Solana / EVM
+                </StyledText>
+                <StyledText className="bg-purple-350 my-5 px-3 py-2 font-semibold rounded-full">
                     {wallet}
                 </StyledText>
                 <StyledView className="flex flex-row gap-3">
@@ -46,6 +55,9 @@ export default function YourWallet({ navigation }) {
                     </StyledTouchableOpacity>
                     <StyledTouchableOpacity onPress={copyToClipboard} className="bg-purple-350 p-4 rounded-full">
                         <StyledImage source={CopyIcon} className="w-8 h-8" />
+                    </StyledTouchableOpacity>
+                    <StyledTouchableOpacity onPress={openExplorer} className="bg-purple-350 p-4 rounded-full">
+                        <StyledImage source={EthereumIcon} className="w-8 h-8" />
                     </StyledTouchableOpacity>
                 </StyledView>
             </StyledView>
