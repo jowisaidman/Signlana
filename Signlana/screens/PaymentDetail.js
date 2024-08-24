@@ -17,7 +17,7 @@ export default function PaymentDetail({ navigation }) {
         const receiverWallet = await getSolanaWalletAddress();
         const senderWallet = "FH7amfL9RXfe4CmPjLQGLYWNxPvjMjRQ4AcdVDxtK4U8" //TODO: traer del verify wallet with goplus
         const message = await createUnsignedSolanaTransaction(senderWallet, receiverWallet, 0.001); //TODO: ultimo param es monto a transferir, vamos a tener que especificar currency tmb o hacer solo usdc (para hackathon creo que haria solo usdc)
-        navigation.navigate('ShowQR', { "message": message, screenTitle: "Solana Tx to Sign", nextScreenName: "ScanQR", nextScreenParams: {} })
+        navigation.navigate('ShowQR', { "message": message, screenTitle: "Solana Tx to Sign", nextScreenName: "ScanQR", nextScreenParams: {screenTitle: "Solana Tx to Sign", nextScreenName: "ShowQR", nextScreenParams: {}} })
     }
 
     return (
