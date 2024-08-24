@@ -2,6 +2,7 @@ import bs58 from 'bs58';
 import CryptoJS from 'crypto-js';
 import * as bip39 from 'bip39';
 import { getRandomDataFromImage } from './ImageService';
+import appConfig from '../app.json';
 import { Buffer } from 'buffer';
 import { getValueFor } from './SecureStorage';
 import * as ethers from 'ethers';
@@ -133,25 +134,42 @@ export async function sendSolanaTransactionToBlockchain(signedTransactionBase64)
 
 /// EVM functions
 
+export async function sendEvmTransactionToBlockchain(signedTransaction, chainId) {
+    const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          "jsonrpc":"2.0",
+          "id":0,
+          "method":"eth_sendRawTransaction",
+          "params":[signedTransaction]
+        })
+      };
+  
+      try {
+          const NODE_URL = getNodeUrl(chainId);
+          let receipt = await fetch(NODE_URL, requestOptions);
+          console.log(`txn receipt`, await receipt.text());
+      } catch(e) {
+          console.log(`Error sending tx to chain ${e}`);
+      }
+}
+
 export async function getEVMWalletAddress() {
     const walletMnemonic = await getValueFor("seedPhrase");
     return ethers.Wallet.fromPhrase(walletMnemonic);
 }
 
+function getNodeUrl(chainId) {
+    const networks = appConfig.expo.networks.evm;
+    // find the network with attribute chanId = chainId
+    const network = networks[Object.keys(networks).find(key => networks[key].chainId === chainId)];
+    return network.rpcUrl;
+}
+
 function getEthersProvider(chainId) {
-    let provider;
-    // TODO: actualizar con los valores de app.json
-    switch (chainId) {
-      case 1:
-        provider = ethers.getDefaultProvider('mainnet');
-        break;
-      case 4:
-        provider = ethers.getDefaultProvider('rinkeby');
-        break;
-      default:
-        provider = ethers.getDefaultProvider('ropsten');
-        break;
-    }
+    const provider = new ethers.JsonRpcProvider(getNodeUrl(chainId));
+
     return provider;
 }
 
@@ -160,9 +178,15 @@ export async function getNonce(address, chainId) {
     return nonce;
 }
 
-export async function getGasPrice(chainId) {
-    const gasPrice = await getEthersProvider(chainId).getGasPrice();
-    return gasPrice;
+
+export async function getMaxFeePerGas(chainId) {
+    const gasPrice = await getEthersProvider(chainId).getFeeData();
+    return gasPrice.maxFeePerGas;
+}
+
+export async function getMaxPriorityFeePerGas(chainId) {
+    const gasPrice = await getEthersProvider(chainId).getFeeData();
+    return gasPrice.maxPriorityFeePerGas;
 }
 
 export async function signEvmTransaction(message, mnemonic) {

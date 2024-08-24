@@ -3,7 +3,7 @@ import { StyledView, StyledText, StyledTouchableOpacity, StyledInput, StyledPick
 import { CameraView } from 'expo-camera'
 import { styled } from 'nativewind/dist'
 import { SafeAreaView } from 'react-native';
-import { getSolanaWalletAddress, createUnsignedSolanaTransaction, getEVMWalletAddress, getNonce } from '../utils/WalletService';
+import { getSolanaWalletAddress, createUnsignedSolanaTransaction, getEVMWalletAddress, getNonce, getMaxFeePerGas, getMaxPriorityFeePerGas } from '../utils/WalletService';
 import { network } from './YourWallet';
 
 const Labels = {
@@ -54,10 +54,10 @@ export default function VerifyWalletGoplus({ navigation, route }) {
             to: receiverWallet["address"],
             value: amount,
             chainId,
-            nonce: getNonce(receiverWallet, chainId),
-            gasLimit: 21000, // getGasPrice(chainId)
-            maxPriorityFeePerGas: 2,
-            maxFeePerGas: 3,
+            nonce: await getNonce(wallet, chainId),
+            gasLimit: 200000, 
+            maxPriorityFeePerGas: await getMaxPriorityFeePerGas(chainId),
+            maxFeePerGas: await getMaxFeePerGas(chainId),
             accessList: [],
             data: "0x" //TODO: check for usdc
         }

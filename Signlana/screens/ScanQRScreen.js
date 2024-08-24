@@ -14,7 +14,10 @@ const ScanQRScreen = ({ navigation, route }) => {
         setTimeout(async () => {
             if (scannedData) {
                 if (route.params.sendTransaction) {
-                    await sendSolanaTransactionToBlockchain(scannedData);
+                    if (route.params.chainId === "solana")
+                        await sendSolanaTransactionToBlockchain(scannedData);
+                    else
+                        await sendEvmTransactionToBlockchain(scannedData, route.params.chainId);
                     navigation.navigate(route.params.nextScreenName)
                 } else {
                     navigation.navigate(route.params.nextScreenName, {"data": scannedData})
