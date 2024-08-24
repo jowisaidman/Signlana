@@ -7,14 +7,12 @@ import { getValueFor } from '../utils/SecureStorage';
 
 const WelcomeScreen = ({ navigation }) => {
     useEffect(() => {
-        async function checkSeedPhrase() {
+        (async () => {
             let seedPhrase = await getValueFor("seedPhrase");
             if (seedPhrase) {
-                console.log("Seed phrase: ", seedPhrase);
                 navigation.navigate("SelectService");
             }
-        }
-        checkSeedPhrase();
+        })()
     }, []); 
     
     return (

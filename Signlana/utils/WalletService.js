@@ -23,9 +23,7 @@ function bytesToHex(bytes) {
     return Array.from(bytes).map(byte => byte.toString(16).padStart(2, '0')).join('');
 }
 
-export async function createNewSeedPhrase() {
-
-    const randomData = await getRandomDataFromImage();
+export async function createNewSolSeedPhrase(randomData) {
 
     if (!randomData) {
         return false;
@@ -45,8 +43,7 @@ export async function createNewSeedPhrase() {
     return mnemonic
 }
 
-export async function createNewEvmSeedPhrase() {
-    const randomData = await getRandomDataFromImage();
+export async function createNewEvmSeedPhrase(randomData) {
 
     if (!randomData) {
         return false;

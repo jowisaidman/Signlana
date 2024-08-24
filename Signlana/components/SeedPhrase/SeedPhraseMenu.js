@@ -1,31 +1,39 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import RowSeedPhraseMenu from './RowSeedPhraseMenu';
+import { StyledInput, StyledText, StyledView } from '../Styled';
 
-const SeedPhraseMenu = ({wallet}) => {
+const PhraseList = ({ phrases, chain }) =>
+  <>
+    <StyledText className='text-xl mb-3 text-purple-950 text-center font-semibold'>
+      {chain}
+    </StyledText>
+    <StyledView className='flex flex-row flex-wrap items-center justify-center gap-2'>
+      {
+        phrases.map(phrase => <StyledInput key={phrase} value={phrase} className='bg-purple-200 border-2 border-purple-950 rounded-xl p-2' />)
+      }
+    </StyledView>
+  </>
+
+
+const SeedPhraseMenu = ({ wallet: { sol, evm } }) => {
   return (
-    <View style={styles.container}>
-      <RowSeedPhraseMenu
-        firstInput={{textPlaceholder: "Word 1", textValue: wallet? wallet[0]: null }}
-        secondInput={{textPlaceholder: "Word 2", textValue: wallet? wallet[1] : null }}
-        thirdInput={{textPlaceholder: "Word 3", textValue: wallet? wallet[2] : null }}
-      />
-      <RowSeedPhraseMenu
-        firstInput={{textPlaceholder: "Word 4", textValue: wallet? wallet[3] : null }}
-        secondInput={{textPlaceholder: "Word 5", textValue: wallet? wallet[4] : null }}
-        thirdInput={{textPlaceholder: "Word 6", textValue: wallet? wallet[5] : null }}
-      />
-      <RowSeedPhraseMenu
-        firstInput={{textPlaceholder: "Word 7", textValue: wallet? wallet[6] : null }}
-        secondInput={{textPlaceholder: "Word 8", textValue: wallet? wallet[7] : null }}
-        thirdInput={{textPlaceholder: "Word 9", textValue: wallet? wallet[8] : null }}
-      />
-      <RowSeedPhraseMenu
-        firstInput={{textPlaceholder: "Word 10", textValue: wallet? wallet[9] : null }}
-        secondInput={{textPlaceholder: "Word 11", textValue: wallet? wallet[10] : null }}
-        thirdInput={{textPlaceholder: "Word 12", textValue: wallet? wallet[11] : null }}
-      />
-    </View>
+    <StyledView >
+      <StyledView>
+        {/* <StyledText>
+          Solana
+        </StyledText>
+        <StyledView className='flex flex-row flex-wrap items-center justify-center gap-2'>
+          {
+            wallet.sol.map(phrase => <StyledInput value={phrase} className='bg-purple-200 border-2 border-purple-950 rounded-xl p-2' />)
+          }
+        </StyledView> */}
+        <PhraseList chain={"Solana"} phrases={sol} />
+        <PhraseList chain={"EVM"} phrases={evm} />
+        {/* <PhraseList /> */}
+      </StyledView>
+
+    </StyledView>
   );
 };
 

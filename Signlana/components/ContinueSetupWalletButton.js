@@ -1,17 +1,19 @@
 import React from 'react';
 import { TouchableOpacity, StyleSheet, Text } from 'react-native';
 import { save } from '../utils/SecureStorage';
+import { StyledText } from './Styled';
 
-const ContinueSetupWalletButton = ({seedPhrase, navigation}) => {
+const ContinueSetupWalletButton = ({wallet, navigation}) => {
   
     const handleContinue = async () => {
-        await save("seedPhrase", seedPhrase);
+        await save("seedEVMPhrase", wallet.evm.join(" "));
+        await save("seedSolanaPhrase", wallet.sol.join(" "));
         navigation.navigate('SelectService');
     }
 
     return (
-        <TouchableOpacity style={styles.touchOpacityButton} onPress={() => handleContinue()}>
-            <Text style={styles.text}>Continue</Text>
+        <TouchableOpacity className="px-4 py-2 bg-purple-350 border-2 border-purple-950 rounded-full" onPress={() => handleContinue()}>
+            <StyledText className='text-2xl text-purple-950 font-semibold'>Continue</StyledText>
         </TouchableOpacity>
     );
 };

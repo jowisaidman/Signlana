@@ -5,6 +5,7 @@ import { Camera } from 'expo-camera'
 
 import {StyledView, StyledText, StyledTouchableOpacity, StyledImage} from "../components/Styled"
 import WalletPop from "../components/WalletPop"
+import { getValueFor } from '../utils/SecureStorage'
 
 const SelectService = ({ navigation }) => {
     const [hasPermission, setHasPermission] = useState(null);
