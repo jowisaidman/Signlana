@@ -64,7 +64,7 @@ export default function VerifyWalletGoplus({ navigation, route }) {
 
         console.log("Tx to sign: ", tx);
 
-        navigation.navigate('ShowQR', { "message": tx.toString(), screenTitle: "Evm Tx to Sign", nextScreenName: "ScanQR", nextScreenParams: {screenTitle: "Scan Signed Tx", nextScreenName: "SelectService", sendTransaction: true, chain: chain} })
+        navigation.navigate('ShowQR', { "message": JSON.stringify(tx), screenTitle: "Evm Tx to Sign", nextScreenName: "ScanQR", nextScreenParams: {screenTitle: "Scan Signed Tx", nextScreenName: "SelectService", sendTransaction: true, chain: chain} })
     }
 
     async function buildSolanaTx(amount, currency) {

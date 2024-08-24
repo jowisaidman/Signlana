@@ -9,9 +9,9 @@ import GoplusIcon from "../assets/goplus.png"
 import Dropdown from 'react-native-input-select';
 
 export default function PaymentDetail({ navigation }) {
-    const [currency, setCurrency] = useState('usdc');
-    const [amount, setAmount] = useState(0)
-    const [chain, setChain] = useState('solana')
+    const [currency, setCurrency] = useState('eth');
+    const [amount, setAmount] = useState(0.001)
+    const [chain, setChain] = useState('EthereumSepolia')
 
     return (
         <StyledView className="flex-1 justify-center items-center bg-purple-300">
