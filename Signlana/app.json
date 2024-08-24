@@ -90,6 +90,28 @@
             "decimals": 18
           },
           "USDC address": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+        },
+        "Avax C-Chain": {
+          "chainId": 43114,
+          "rpcUrl": "https://api.avax.network/ext/bc/C/rpc",
+          "blockExplorer": "https://snowtrace.io/",
+          "nativeCurrency": {
+            "name": "AVAX",
+            "symbol": "AVAX",
+            "decimals": 6
+          },
+          "USDC address": "0xB97EF9Ef8734C71904D8002F8b6Bc66Dd9c48a6E"
+        },
+        "Avalanche Fuji C-Chain": {
+          "chainId": 43113,
+          "rpcUrl": "https://api.avax-test.network/ext/bc/C/rpc",
+          "blockExplorer": "https://testnet.snowtrace.io/",
+          "nativeCurrency": {
+            "name": "AVAX",
+            "symbol": "AVAX",
+            "decimals": 6
+          },
+          "USDC address": "0x5425890298aed601595a70AB815c96711a31Bc65"
         }
       },
       "solana": {

@@ -30,6 +30,8 @@ export default function PaymentDetail({ navigation }) {
                             { label: 'ARBITRUM', value: 'Arbitrum' },
                             { label: 'POLYGON', value: 'Polygon' },
                             { label: 'ETHEREUM SEPOLIA', value: 'EthereumSepolia' },
+                            { label: 'AVAX C-CHAIN', value: 'Avax C-Chain' },
+                            { label: 'AVAX C-CHAIN TESTNET', value: 'Avalanche Fuji C-Chain' },
                         ]} />
                     </StyledView>
                     <StyledView className="mb-4">
@@ -40,6 +42,7 @@ export default function PaymentDetail({ navigation }) {
                             { label: 'USDC', value: 'usdc' },
                             { label: 'SOL', value: 'sol' },
                             { label: 'ETH', value: 'eth' },
+                            { label: 'AVAX', value: 'avax' },
                         ]} />
                     </StyledView>
                     <StyledView className="mb-4">
