@@ -8,8 +8,9 @@ import { getValueFor } from '../utils/SecureStorage';
 const WelcomeScreen = ({ navigation }) => {
     useEffect(() => {
         (async () => {
-            let seedPhrase = await getValueFor("seedPhrase");
-            if (seedPhrase) {
+            let seedPhraseEth = await getValueFor("seedPhraseEthereum");
+            let seedPhraseSolana = await getValueFor("seedPhraseSolana");
+            if (seedPhraseEth && seedPhraseSolana) {
                 navigation.navigate("SelectService");
             }
         })()

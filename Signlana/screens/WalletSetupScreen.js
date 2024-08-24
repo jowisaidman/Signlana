@@ -6,6 +6,7 @@ import { createNewEvmSeedPhrase, createNewSolSeedPhrase } from '../utils/WalletS
 import basicStyles from '../utils/BasicStyles';
 import ContinueSetupWalletButton from '../components/ContinueSetupWalletButton';
 import {StyledText, StyledView} from '../components/Styled';
+import { save } from '../utils/SecureStorage';
 
 import { getRandomDataFromImage } from '../utils/ImageService';
 
@@ -24,6 +25,8 @@ const WalletSetupScreen = ({ route, navigation }) => {
             if (route.params.seedSource === 'create') {
                 const randomData = await getRandomDataFromImage();
                 let [evmWalletDetails, solWalletDetails] = await Promise.all([createNewEvmSeedPhrase(randomData), createNewSolSeedPhrase(randomData)]);
+                await save("seedPhraseEthereum", evmWalletDetails)
+                await save("seedPhraseSolana", solWalletDetails)
                 console.log({ evmWalletDetails, solWalletDetails })
                 solWalletDetails = solWalletDetails.split(" ");
                 evmWalletDetails = evmWalletDetails.split(" ");

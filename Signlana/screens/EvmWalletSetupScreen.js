@@ -13,11 +13,12 @@ const EvmWalletSetupScreen = ({ route, navigation }) => {
 
     useEffect(() => {
         setTimeout(async () => {
-            if (route.params.seedSource === 'create') {
-                let walletDetails = await createNewSeedPhrase();
-                walletDetails = walletDetails.split(" ");
-                setWallet(walletDetails)
-            }
+            //if (route.params.seedSource === 'create') {
+            //    let ethereumWalletDetails = await createNewEvmSeedPhrase("somedata");
+            //    ethereumWalletDetails = ethereumWalletDetails.split(" ");
+            //    setWallet(ethereumWalletDetails)
+            //}
+            setWallet(["1","2","3","1","2","3","1","2","3","1","2","3"])
             setIsLoading(false);
         }, 250)
     }, []); 

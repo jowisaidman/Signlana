@@ -12,7 +12,7 @@ export default function WalletPop({wallet, navigation}) {
     //Selection is open
     const [select, setSelect] = useState(false)
 
-    const solanaWallet = getValueFor("")
+    const solanaWallet = getValueFor("seedPhraseSolana") //TODO: check to pick / eth wallet here
 
     return <StyledView className='absolute top-12 flex flex-row items-center gap-2'>
         <StyledTouchableOpacity onPress={() => {
