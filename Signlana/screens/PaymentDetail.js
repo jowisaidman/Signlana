@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { StyledView, StyledInput, StyledText, StyledImage, StyledTouchableOpacity } from '../components/Styled'
 
 import { SafeAreaView } from 'react-native';
@@ -6,36 +6,13 @@ import { SafeAreaView } from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
 
 import GoplusIcon from "../assets/goplus.png"
-import { getSolanaWalletAddress, createUnsignedSolanaTransaction } from '../utils/WalletService';
 
 
 
 export default function PaymentDetail({ navigation }) {
-
-    async function buildUnsignedEvmTx() {
-        let tx = {
-            to: "0x1234567890123456789012345678901234567890",
-            value: "0x1234567890123456789012345678901234567890",
-            data: "0x1234567890123456789012345678901234567890",
-            chainId: 1,
-            nonce: 0,
-            gasLimit: 21000,
-            maxPriorityFeePerGas: 2,
-            maxFeePerGas: 3,
-            accessList: [],
-            data: "0x1234567890123456789012345678901234567890"
-        }
-
-        navigation.navigate('ShowQR', { "message": tx, screenTitle: "Evm Tx to Sign", nextScreenName: "ScanQR", nextScreenParams: {} })
-    }
-
-    async function buildUnsignedTx() {
-        // TODO: Va depender de la current chain
-        const receiverWallet = await getSolanaWalletAddress();
-        const senderWallet = "BBSQxFbUqtmoEGbV5y3p2aLsMQW8RMEmbjUzMsW9PkL9" //TODO: traer del verify wallet with goplus
-        const message = await createUnsignedSolanaTransaction(senderWallet, receiverWallet, 0.001); //TODO: ultimo param es monto a transferir, vamos a tener que especificar currency tmb o hacer solo usdc (para hackathon creo que haria solo usdc)
-        navigation.navigate('ShowQR', { "message": message, screenTitle: "Solana Tx to Sign", nextScreenName: "ScanQR", nextScreenParams: {screenTitle: "Scan Signed Tx", nextScreenName: "SelectService", sendTransaction: true} })
-    }
+    const [currency, setCurrency] = useState('usdc');
+    const [amount, setAmount] = useState(0)
+    const [chain, setChain] = useState('solana')
 
     return (
         <StyledView className="flex-1 justify-center items-center bg-purple-300">
@@ -44,8 +21,21 @@ export default function PaymentDetail({ navigation }) {
             <SafeAreaView>
                 {/* <StyledInput type="number" className="w-20 h-10 bg-white"></StyledInput> */}
                 <StyledView className=" p-4 rounded-xl w-72 max-w-sm">
-                <StyledView className="mb-4">
-                        <RNPickerSelect value="usdc" onValueChange={() => {}} items={[
+                <StyledView className="mb-4 flex-row">
+                        <StyledText className="text-black text font-ligth mr-2">
+                            Chain:
+                        </StyledText>
+                        <RNPickerSelect value="solana" onValueChange={(c) => setChain(c)} items={[
+                            { label: 'SOLANA', value: 'solana' },
+                            { label: 'ETHEREUM', value: 'ethereum' },
+                            { label: 'ARBITRUM', value: 'arbitrum' },
+                        ]} style={{backgroundColor: "red"}} />
+                    </StyledView>
+                <StyledView className="mb-4 flex-row">
+                        <StyledText className="text-black text font-ligth mr-2">
+                            Currency:
+                        </StyledText>
+                        <RNPickerSelect value="usdc" onValueChange={(c) => setCurrency(c)} items={[
                             { label: 'USDC', value: 'usdc' },
                             { label: 'SOL', value: 'sol' },
                             { label: 'ETH', value: 'eth' },
@@ -56,18 +46,13 @@ export default function PaymentDetail({ navigation }) {
                             type="number"
                             placeholder="0.00"
                             className="w-full text-center text-4xl bg-gray-100 rounded-md p-2"
+                            onChange={(e) => setAmount(e.nativeEvent.text)}
                         />
                     </StyledView>
 
                     <StyledTouchableOpacity
-                        className="bg-purple-350 p-3 rounded-full mt-4"
-                        onPress={async () => await buildUnsignedTx()} //TODO: volar este boton, que en el point el usuario escanee la wallet del otro si o si para saber aramar de tx solana
-                    >
-                        <StyledText className="text-purple-950 text-2xl text-center font-semibold">Next</StyledText>
-                    </StyledTouchableOpacity>
-                    <StyledTouchableOpacity
                         className="border-2 bg-purple-950 border-purple-900 flex items-center gap-1 py-2 rounded-full mt-4"
-                        onPress={() => navigation.navigate('VerifyWalletGoplus')}
+                        onPress={() => navigation.navigate('VerifyWalletGoplus', {chain: chain, amount: amount, currency: currency})}
                     >
                         <StyledText className="text-purple-200 text-left text-md font-light">Verify wallet with</StyledText>
                         <StyledImage className="w-[70%] h-9 " tintColor='#e9d5ff' source={GoplusIcon}></StyledImage>

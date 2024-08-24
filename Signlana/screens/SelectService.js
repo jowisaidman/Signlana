@@ -52,7 +52,7 @@ const SelectService = ({ navigation }) => {
                 >
                     <StyledText className="text-black text-xl font-semibold">Signala Pos</StyledText>
                     <StyledImage source={ImportWalletIcon} className='w-20 h-20'/>
-                    <StyledText className="text-black text font-ligth">Perfom transactions</StyledText>
+                    <StyledText className="text-black text font-ligth">Perform transactions</StyledText>
                     <StyledText className="text-black text font-ligth  italic font-semibold">Works online</StyledText>
                 </StyledTouchableOpacity>
             </StyledView>

@@ -4,7 +4,6 @@ import ImportWalletIcon from "../assets/import-wallet-icon.png"
 
 import {StyledView, StyledText, StyledTouchableOpacity, StyledImage} from "../components/Styled"
 import { getValueFor } from '../utils/SecureStorage';
-import { getSolanaWalletAddress } from '../utils/WalletService';
 
 const WelcomeScreen = ({ navigation }) => {
     useEffect(() => {

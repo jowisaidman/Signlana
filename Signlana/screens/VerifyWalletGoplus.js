@@ -3,6 +3,7 @@ import { StyledView, StyledText, StyledTouchableOpacity, StyledInput, StyledPick
 import { CameraView } from 'expo-camera'
 import { styled } from 'nativewind/dist'
 import { SafeAreaView } from 'react-native';
+import { getSolanaWalletAddress, createUnsignedSolanaTransaction } from '../utils/WalletService';
 
 const Labels = {
     "blacklist_doubt": "Blacklist",
@@ -34,16 +35,49 @@ async function GoplusVerifyWallet(wallet) {
 
 const StyledCamera = styled(CameraView)
 
-export default function VerifyWalletGoplus({ navigation }) {
+export default function VerifyWalletGoplus({ navigation, route }) {
     const [isLoading, setIsLoading] = useState(false)
 
     const [verificationData, setVerificationData] = useState()
+    const [wallet, setWallet] = useState("")
 
     console.log({ verificationData })
 
+    async function buildUnsignedEvmTx() {
+        let tx = {
+            to: "0x1234567890123456789012345678901234567890",
+            value: "0x1234567890123456789012345678901234567890",
+            data: "0x1234567890123456789012345678901234567890",
+            chainId: 1,
+            nonce: 0,
+            gasLimit: 21000,
+            maxPriorityFeePerGas: 2,
+            maxFeePerGas: 3,
+            accessList: [],
+            data: "0x1234567890123456789012345678901234567890"
+        }
+
+        navigation.navigate('ShowQR', { "message": tx, screenTitle: "Evm Tx to Sign", nextScreenName: "ScanQR", nextScreenParams: {screenTitle: "Scan Signed Tx", nextScreenName: "SelectService", sendTransaction: true} }) //TODO: agregar chainId
+    }
+
+    async function buildSolanaTx(amount, currency) {
+        console.log("Currency: ", currency); // For now only SOL
+        const receiverWallet = await getSolanaWalletAddress();
+        const message = await createUnsignedSolanaTransaction(wallet, receiverWallet, amount);
+        navigation.navigate('ShowQR', { "message": message, screenTitle: "Solana Tx to Sign", nextScreenName: "ScanQR", nextScreenParams: {screenTitle: "Scan Signed Tx", nextScreenName: "SelectService", sendTransaction: true} }) //TODO: agregar chainId
+    }
+
+    async function buildUnsignedTx(chain, amount, currency) {
+        if (chain === 'solana') {
+            await buildSolanaTx(amount, currency);
+        } else if (chain === 'ethereum') {
+            await buildUnsignedEvmTx(); //TODO: revisar
+        }
+    }
+
     const verifyWallet = (wallet) => {
         setIsLoading(true)
-
+        setWallet(wallet);
         GoplusVerifyWallet(wallet).then((data) => {
             if (!data.result) return
             setVerificationData(data.result)
@@ -74,8 +108,8 @@ export default function VerifyWalletGoplus({ navigation }) {
                         </StyledView>
                     ))}
                 </StyledView>
-                <StyledTouchableOpacity className='mt-3' onPress={() => { setVerificationData() }}>
-                    <StyledText className='bg-purple-350 border rounded-full text-purple-950 border-purple-950 px-4 py-2 text-xl font-semibold'>Retry</StyledText>
+                <StyledTouchableOpacity className='mt-3' onPress={async () => await buildUnsignedTx(route.params.chain, route.params.amount, route.params.currency)}>
+                    <StyledText className='bg-purple-350 border rounded-full text-purple-950 border-purple-950 px-4 py-2 text-xl font-semibold'>Create payment</StyledText>
                 </StyledTouchableOpacity>
             </> : <>
                 <StyledText className="text-5xl text-purple-950">Verify Wallet</StyledText>
@@ -97,3 +131,10 @@ export default function VerifyWalletGoplus({ navigation }) {
         </StyledView>
     )
 }
+
+//<StyledTouchableOpacity
+//className="bg-purple-350 p-3 rounded-full mt-4"
+//onPress={async () => await buildUnsignedTx()} //TODO: volar este boton, que en el point el usuario escanee la wallet del otro si o si para saber aramar de tx solana
+//>
+//<StyledText className="text-purple-950 text-2xl text-center font-semibold">Next</StyledText>
+//</StyledTouchableOpacity>

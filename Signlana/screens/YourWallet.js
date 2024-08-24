@@ -111,7 +111,7 @@ export default function YourWallet({ navigation }) {
                 <StyledText className="bg-purple-350 my-5 items-center justify-center px-3 py-2 font-semibold rounded-full">
                     Network: {chain == "solana" ? "Solana" : "EVM"}
                 </StyledText>
-                <StyledText className="bg-purple-350 mb-5 px-3 py-2 font-semibold rounded-full">
+                <StyledText className="bg-purple-350 my-5 px-3 py-2 font-semibold rounded-full">
                     {wallet}
                 </StyledText>
                 <StyledView className="flex flex-row flex-wrap gap-3">
