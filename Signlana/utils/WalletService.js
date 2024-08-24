@@ -161,6 +161,7 @@ export async function getEVMWalletAddress() {
 }
 
 function getNodeUrl(chainId) {
+    console.log("getNodeUrl - chainId", chainId);
     const networks = appConfig.expo.networks.evm;
     // find the network with attribute chanId = chainId
     const network = networks[Object.keys(networks).find(key => networks[key].chainId === chainId)];
@@ -191,7 +192,8 @@ export async function getMaxPriorityFeePerGas(chainId) {
 
 export async function signEvmTransaction(message, mnemonic) {
     const formattedMessage = JSON.parse(message);
-    console.log(formattedMessage)
+    console.log("formattedMessage:", formattedMessage);
+    console.log("signEvmTransaction - mnemonic:", mnemonic);
   
     const gasLimitHex = '0x' + formattedMessage.gasLimit.toString(16);
     const transaction = {
@@ -202,7 +204,7 @@ export async function signEvmTransaction(message, mnemonic) {
       maxFeePerGas: ethers.parseUnits(formattedMessage.maxFeePerGas, 'wei').toString(),
       gasLimit: gasLimitHex,
       to: formattedMessage.to,
-      value: ethers.parseUnits(formattedMessage.value, 'ether').toString(), 
+      value: ethers.parseUnits(formattedMessage.value.toString(), 'ether').toString(), 
       data: formattedMessage.data,
       accessList: formattedMessage.accessList
     }

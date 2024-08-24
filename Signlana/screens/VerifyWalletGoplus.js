@@ -45,10 +45,9 @@ export default function VerifyWalletGoplus({ navigation, route }) {
     console.log({ verificationData })
     console.log(route.params)
 
-    async function buildUnsignedEvmTx(chain, amount, currency) {
+    async function buildUnsignedEvmTx(chainId, amount, currency) {
         const receiverWallet = await getEVMWalletAddress(); 
         console.log("Currency: ", currency); // For now only ETH
-        const chainId = network["ethereum"][chain]["chainId"];
         console.log("EVM address:", receiverWallet)
         let tx = {
             to: receiverWallet["address"],
@@ -64,7 +63,7 @@ export default function VerifyWalletGoplus({ navigation, route }) {
 
         console.log("Tx to sign: ", tx);
 
-        navigation.navigate('ShowQR', { "message": JSON.stringify(tx), screenTitle: "Evm Tx to Sign", nextScreenName: "ScanQR", nextScreenParams: {screenTitle: "Scan Signed Tx", nextScreenName: "SelectService", sendTransaction: true, chain: chain} })
+        navigation.navigate('ShowQR', { "message": JSON.stringify(tx, (key, value) => typeof value === 'bigint' ? value.toString() : value), screenTitle: "Evm Tx to Sign", nextScreenName: "ScanQR", nextScreenParams: {screenTitle: "Scan Signed Tx", nextScreenName: "SelectService", sendTransaction: true, chain: chainId} })
     }
 
     async function buildSolanaTx(amount, currency) {

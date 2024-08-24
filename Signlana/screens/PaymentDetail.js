@@ -11,7 +11,7 @@ import Dropdown from 'react-native-input-select';
 export default function PaymentDetail({ navigation }) {
     const [currency, setCurrency] = useState('eth');
     const [amount, setAmount] = useState(0.001)
-    const [chain, setChain] = useState('EthereumSepolia')
+    const [chain, setChain] = useState(11155111)
 
     return (
         <StyledView className="flex-1 justify-center items-center bg-purple-300">
@@ -29,7 +29,7 @@ export default function PaymentDetail({ navigation }) {
                             { label: 'ETHEREUM', value: 'Ethereum' },
                             { label: 'ARBITRUM', value: 'Arbitrum' },
                             { label: 'POLYGON', value: 'Polygon' },
-                            { label: 'ETHEREUM SEPOLIA', value: 'EthereumSepolia' },
+                            { label: 'ETHEREUM SEPOLIA', value: 11155111 },
                             { label: 'AVAX C-CHAIN', value: 'Avax C-Chain' },
                             { label: 'AVAX C-CHAIN TESTNET', value: 'Avalanche Fuji C-Chain' },
                         ]} />

@@ -51,7 +51,7 @@ export const network = {
         },
         "USDC address": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
       },
-      "EthereumSepolia": {
+      "Ethereum Sepolia": {
         "chainId": 11155111,
         "rpcUrl": "https://ethereum-sepolia-rpc.publicnode.com",
         "blockExplorer": "https://sepolia.etherscan.io/",
@@ -147,7 +147,7 @@ export default function YourWallet({ navigation }) {
 
             <StyledTouchableOpacity
                         className="bg-purple-350 p-3 rounded-full mt-4"
-                        onPress={async () => navigation.navigate('ScanQR', {screenTitle: "Scan tx to Sign", nextScreenName: "SignMessage"})}
+                        onPress={async () => navigation.navigate('ScanQR', {screenTitle: "Scan tx to Sign", nextScreenName: "SignMessage", chain: chain})}
                     >
                         <StyledText className="text-purple-950 text-2xl text-center font-semibold">Scan tx to Sign</StyledText>
             </StyledTouchableOpacity>

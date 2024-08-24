@@ -3,7 +3,7 @@ import React, {useEffect, useState} from 'react';
 import {StyledView, StyledText, StyledTouchableOpacity} from "../components/Styled"
 import { CameraView } from 'expo-camera'
 import { styled } from 'nativewind/dist'
-import { sendSolanaTransactionToBlockchain } from '../utils/WalletService';
+import { sendSolanaTransactionToBlockchain, sendEvmTransactionToBlockchain } from '../utils/WalletService';
 
 const StyledCamera = styled(CameraView)
 
@@ -12,12 +12,13 @@ const ScanQRScreen = ({ navigation, route }) => {
 
     useEffect(() => {
         setTimeout(async () => {
+            console.log("PARAAAMS: ", route.params)
             if (scannedData) {
                 if (route.params.sendTransaction) {
                     if (route.params.chainId === "solana")
                         await sendSolanaTransactionToBlockchain(scannedData);
                     else
-                        await sendEvmTransactionToBlockchain(scannedData, route.params.chainId);
+                        await sendEvmTransactionToBlockchain(scannedData, route.params.chain);
                     navigation.navigate(route.params.nextScreenName)
                 } else {
                     navigation.navigate(route.params.nextScreenName, {"data": scannedData})

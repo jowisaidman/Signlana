@@ -118,7 +118,7 @@
         "Solana" : {
           "name": "Solana",
           "chainId": 101,
-          "rpcUrl": "https://api.mainnet-beta.solana.com",
+          "rpcUrl": "https://api.devnet.solana.com",
           "blockExplorer": "https://explorer.solana.com",
           "nativeCurrency": {
             "name": "SOL",

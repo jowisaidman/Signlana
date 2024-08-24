@@ -1,15 +1,25 @@
 import React from 'react';
 import {StyledView, StyledText, StyledTouchableOpacity} from "../components/Styled"
-import { getSolanaWallet, signSolanaTransaction } from '../utils/WalletService';
+import { getEVMWalletAddress, getSolanaWallet, signEvmTransaction, signSolanaTransaction } from '../utils/WalletService';
 import bs58 from 'bs58';
 
 const SignMessageScreen = ({ route, navigation }) => {
 
-    async function signTransactionData (data) {
-        const wallet = await getSolanaWallet(); // TODO: depend on current chain
-        const secretKeyBase58 = bs58.encode(wallet.secretKey);
-        const signedMessage = signSolanaTransaction(data, secretKeyBase58);
-        navigation.navigate('ShowQR', { "message": signedMessage, screenTitle: "Solana Signed Tx", nextScreenName: "YourWallet", nextScreenParams: {}});
+    async function signTransactionData(data, chain) {
+        console.log("PARAMS in signer: ", route);
+        if (chain === 'solana') {
+            const wallet = await getSolanaWallet();
+            const secretKeyBase58 = bs58.encode(wallet.secretKey);
+            const signedMessage = signSolanaTransaction(data, secretKeyBase58);
+            navigation.navigate('ShowQR', { "message": signedMessage, screenTitle: "Solana Signed Tx", nextScreenName: "YourWallet", nextScreenParams: {}});
+        } else {
+            const wallet = await getEVMWalletAddress();
+            console.log("Wallet in signer: ", wallet);
+            console.log("Data in signer: ", data);
+            const signedMessage = await signEvmTransaction(data, wallet.mnemonic.phrase)
+            console.log("Signed message: ", signedMessage);
+            navigation.navigate('ShowQR', { "message": signedMessage, screenTitle: "EVM Signed Tx", nextScreenName: "YourWallet", nextScreenParams: {}});
+        }
     }
 
     return (
@@ -23,7 +33,7 @@ const SignMessageScreen = ({ route, navigation }) => {
             <StyledText className="text-black text font-ligth">{route.params.data}</StyledText>
             <StyledTouchableOpacity
                         className="bg-purple-350 p-3 rounded-full mt-4"
-                        onPress={async () => await signTransactionData(route.params.data)}
+                        onPress={async () => await signTransactionData(route.params.data, route.params.chain)}
                     >
                         <StyledText className="text-purple-950 text-2xl text-center font-semibold">Next</StyledText>
             </StyledTouchableOpacity>
