@@ -132,6 +132,33 @@ export async function sendSolanaTransactionToBlockchain(signedTransactionBase64)
 
 /// EVM functions
 
+function getEthersProvider(chainId) {
+    let provider;
+    // TODO: actualizar con los valores de app.json
+    switch (chainId) {
+      case 1:
+        provider = ethers.getDefaultProvider('mainnet');
+        break;
+      case 4:
+        provider = ethers.getDefaultProvider('rinkeby');
+        break;
+      default:
+        provider = ethers.getDefaultProvider('ropsten');
+        break;
+    }
+    return provider;
+}
+
+export async function getNonce(address, chainId) {
+    const nonce = await getEthersProvider(chainId).getTransactionCount(address);
+    return nonce;
+}
+
+export async function getGasPrice(chainId) {
+    const gasPrice = await getEthersProvider(chainId).getGasPrice();
+    return gasPrice;
+}
+
 export async function signEvmTransaction(message, mnemonic) {
     const formattedMessage = JSON.parse(message);
     console.log(formattedMessage)
