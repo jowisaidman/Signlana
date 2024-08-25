@@ -9,6 +9,7 @@ import DangerIcon from "../assets/danger-icon.png"
 import CheckIcon from "../assets/check-icon.png"
 
 import { setTransactionData } from '../utils/CurrentWalletStore';
+import Loading from '../components/Loader';
 
 const Labels = {
     "blacklist_doubt": "Blacklist",
@@ -41,7 +42,8 @@ async function GoplusVerifyWallet(wallet) {
 const StyledCamera = styled(CameraView)
 
 export default function VerifyWalletGoplus({ navigation, route }) {
-    const [isLoading, setIsLoading] = useState(false)
+    const [isLoading, setIsLoading] = useState(false);
+    const [loadingMessage, setLoadingMessage] = useState("Fetching wallet information")
 
     const [verificationData, setVerificationData] = useState()
     const [wallet, setWallet] = useState("")
@@ -83,7 +85,7 @@ export default function VerifyWalletGoplus({ navigation, route }) {
         }
 
         console.log("Tx to sign: ", tx);
-
+        setIsLoading(false);
         navigation.navigate('ShowQR', { "message": JSON.stringify(tx, (key, value) => typeof value === 'bigint' ? value.toString() : value), screenTitle: "Evm Tx to Sign", nextScreenName: "ScanQR", nextScreenParams: {screenTitle: "Scan Signed Tx", nextScreenName: "SelectService", sendTransaction: true, chain: chainId} })
     }
 
@@ -91,10 +93,13 @@ export default function VerifyWalletGoplus({ navigation, route }) {
         console.log("Currency: ", currency); // For now only SOL
         const receiverWallet = await getSolanaWalletAddress();
         const message = await createUnsignedSolanaTransaction(wallet, receiverWallet, amount);
+        setIsLoading(false);
         navigation.navigate('ShowQR', { "message": message, screenTitle: "Solana Tx to Sign", nextScreenName: "ScanQR", nextScreenParams: {screenTitle: "Scan Signed Tx", nextScreenName: "SelectService", sendTransaction: true, chain: "solana"} })
     }
 
     async function buildUnsignedTx(chain, amount, currency) {
+        setIsLoading(true);
+        setLoadingMessage("Creating transaction to sign");
         setTransactionData(amount, currency, wallet);
         if (chain === 'solana') {
             await buildSolanaTx(amount, currency);
@@ -121,7 +126,7 @@ export default function VerifyWalletGoplus({ navigation, route }) {
         // })
     }
 
-    if (isLoading) return <StyledText>Esta cargando makinolaaaa</StyledText>
+    if (isLoading) return <Loading text={loadingMessage}/>
     return (
         <StyledView className="flex-1 justify-center items-center bg-purple-300">
             {verificationData ? <>
@@ -159,10 +164,3 @@ export default function VerifyWalletGoplus({ navigation, route }) {
         </StyledView>
     )
 }
-
-//<StyledTouchableOpacity
-//className="bg-purple-350 p-3 rounded-full mt-4"
-//onPress={async () => await buildUnsignedTx()} //TODO: volar este boton, que en el point el usuario escanee la wallet del otro si o si para saber aramar de tx solana
-//>
-//<StyledText className="text-purple-950 text-2xl text-center font-semibold">Next</StyledText>
-//</StyledTouchableOpacity>
