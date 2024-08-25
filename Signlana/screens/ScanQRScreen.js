@@ -16,7 +16,7 @@ const ScanQRScreen = ({ navigation, route }) => {
             console.log("PARAAAMS: ", route.params)
             if (scannedData) {
                 if (route.params.sendTransaction) {
-                    if (route.params.chainId === "solana")
+                    if (route.params.chain === "solana")
                         await sendSolanaTransactionToBlockchain(scannedData);
                     else
                         await sendEvmTransactionToBlockchain(scannedData, route.params.chain);

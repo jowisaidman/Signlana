@@ -2,10 +2,13 @@ import React from 'react';
 import {StyledView, StyledText, StyledTouchableOpacity} from "../components/Styled"
 import { getEVMWalletAddress, getSolanaWallet, signEvmTransaction, signSolanaTransaction } from '../utils/WalletService';
 import bs58 from 'bs58';
+import { useStore } from '@nanostores/react';
+import { $currentWallet } from '../utils/CurrentWalletStore';
 
 const SignMessageScreen = ({ route, navigation }) => {
+    const { chain } = useStore($currentWallet);
 
-    async function signTransactionData(data, chain) {
+    async function signTransactionData(data) {
         console.log("PARAMS in signer: ", route);
         if (chain === 'solana') {
             const wallet = await getSolanaWallet();
@@ -33,7 +36,7 @@ const SignMessageScreen = ({ route, navigation }) => {
             <StyledText className="text-black text font-ligth">{route.params.data}</StyledText>
             <StyledTouchableOpacity
                         className="bg-purple-350 p-3 rounded-full mt-4"
-                        onPress={async () => await signTransactionData(route.params.data, route.params.chain)}
+                        onPress={async () => await signTransactionData(route.params.data)}
                     >
                         <StyledText className="text-purple-950 text-2xl text-center font-semibold">Next</StyledText>
             </StyledTouchableOpacity>
