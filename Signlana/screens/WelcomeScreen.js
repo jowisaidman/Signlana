@@ -10,7 +10,7 @@ const WelcomeScreen = ({ navigation }) => {
         (async () => {
             let seedPhrase = await getValueFor("seedPhrase");
             if (seedPhrase) {
-                navigation.navigate("SelectService");
+                navigation.replace("SelectService");
             }
         })()
     }, []); 
@@ -25,14 +25,14 @@ const WelcomeScreen = ({ navigation }) => {
                     onPress={() => navigation.navigate('WalletSetup', { seedSource: 'create' })}
                 >
                     <StyledText className="text-black text-xl font-semibold">Create Wallet</StyledText>
-                    <StyledImage source={WalletIcon} className='w-20 h-20'/>
+                    <StyledImage tintColor="#3b0764" source={WalletIcon} className='w-20 h-20'/>
                 </StyledTouchableOpacity>
                 <StyledTouchableOpacity
                     className="bg-[#c59eee] border-2 border-purple-950 flex items-center pt-3 gap-2 h-40 w-40 rounded-xl"
                     onPress={() => navigation.navigate('WalletSetup', { seedSource: 'import' })}
                 >
                     <StyledText className="text-black text-xl font-semibold">Import Wallet</StyledText>
-                    <StyledImage source={ImportWalletIcon} className='w-20 h-20'/>
+                    <StyledImage tintColor="#3b0764" source={ImportWalletIcon} className='w-20 h-20'/>
                 </StyledTouchableOpacity>
             </StyledView>
 

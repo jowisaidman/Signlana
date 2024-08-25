@@ -1,10 +1,12 @@
 import React, { useState } from 'react'
-import { StyledView, StyledText, StyledTouchableOpacity, StyledInput, StyledPicker } from '../components/Styled'
+import { StyledView, StyledImage, StyledText, StyledTouchableOpacity, StyledInput, StyledPicker } from '../components/Styled'
 import { CameraView } from 'expo-camera'
 import { styled } from 'nativewind/dist'
 import { SafeAreaView } from 'react-native';
 import { getSolanaWalletAddress, createUnsignedSolanaTransaction, getEVMWalletAddress, getNonce, getMaxFeePerGas, getMaxPriorityFeePerGas } from '../utils/WalletService';
-import { network } from './YourWallet';
+
+import DangerIcon from "../assets/danger-icon.png"
+import CheckIcon from "../assets/check-icon.png"
 
 const Labels = {
     "blacklist_doubt": "Blacklist",
@@ -109,7 +111,7 @@ export default function VerifyWalletGoplus({ navigation, route }) {
                         <StyledView key={label} className="w-1/4 p-2">
                             <StyledView className="bg-purple-350 rounded-lg p-1 items-center justify-center aspect-square">
                                 <StyledText className="text-xs whitespace-nowrap font-bold text-center mb-1 capitalize">{Labels[label]}</StyledText>
-                                <StyledText className="text-lg font-light text-center">{value == "0" ? "Clean" : "Danger"}</StyledText>
+                                <StyledImage source={value == "0" ? CheckIcon : DangerIcon} tintColor="#3b0764" className="w-10 h-10"/>
                             </StyledView>
                         </StyledView>
                     ))}
