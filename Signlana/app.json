@@ -59,8 +59,8 @@
           "USDC address": "0x2791bca1f2de4661ed88a30c99a7a9449aa84174"
         },
         "Polygon Amoy": {
-          "chainId": 111111,
-          "rpcUrl": "https://polygon-amoy-rpc.publicnode.com",
+          "chainId": 80002,
+          "rpcUrl": "https://rpc-amoy.polygon.technology",
           "blockExplorer": "https://amoy.polygonscan.com/",
           "nativeCurrency": {
             "name": "MATIC",
@@ -81,8 +81,8 @@
           "USDC address": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
         },
         "Arbitrum Sepolia": {
-          "chainId": 421611,
-          "rpcUrl": "https://arbitrum-sepolia-rpc.publicnode.com",
+          "chainId": 421614,
+          "rpcUrl": "https://sepolia-rollup.arbitrum.io/rpc",
           "blockExplorer": "https://sepolia-explorer.arbitrum.io/",
           "nativeCurrency": {
             "name": "ETH",

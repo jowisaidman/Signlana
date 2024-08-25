@@ -28,6 +28,7 @@ export default function PaymentDetail({ navigation }) {
         { label: 'ETH', value: 'ethereum', icon: ETHIcon },
         { label: 'USDC', value: 'usdc', icon: USDCIcon },
         { label: 'AVAX', value: 'avax', icon: AvaxIcon},
+        { label: 'POL', value: 'pol', icon: PolygonIcon},
     ]
 
     const [currencies, setCurrencies] = useState(allCurrencies)
@@ -55,7 +56,9 @@ export default function PaymentDetail({ navigation }) {
                             { label: 'SOLANA', value: 'solana', icon: SOLIcon },
                             { label: 'ETHEREUM', value: 1, icon: ETHIcon },
                             { label: 'ARBITRUM', value: 42161, icon: ArbitrumIcon },
+                            { label: 'ARBITRUM SEPOLIA', value: 421614, icon: ArbitrumIcon },
                             { label: 'POLYGON', value: 137, icon: PolygonIcon },
+                            { label: 'POLYGON AMOY', value: 80002, icon: PolygonIcon },
                             { label: 'ETHEREUM SEPOLIA', value: 11155111, icon: ETHIcon },
                             { label: 'AVAX C-CHAIN', value: 43114, icon: AvaxIcon },
                             { label: 'AVAX C-CHAIN TESTNET', value: 43113, icon: AvaxIcon },
