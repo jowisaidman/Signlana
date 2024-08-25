@@ -8,6 +8,8 @@ import { network } from './YourWallet';
 import DangerIcon from "../assets/danger-icon.png"
 import CheckIcon from "../assets/check-icon.png"
 
+import { setTransactionData } from '../utils/CurrentWalletStore';
+
 const Labels = {
     "blacklist_doubt": "Blacklist",
     "blackmail_activities": "Blackmail",
@@ -93,6 +95,7 @@ export default function VerifyWalletGoplus({ navigation, route }) {
     }
 
     async function buildUnsignedTx(chain, amount, currency) {
+        setTransactionData(amount, currency, wallet);
         if (chain === 'solana') {
             await buildSolanaTx(amount, currency);
         } else {

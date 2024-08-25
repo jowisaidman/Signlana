@@ -5,6 +5,7 @@ import { CameraView } from 'expo-camera'
 import { styled } from 'nativewind/dist'
 import { sendSolanaTransactionToBlockchain, sendEvmTransactionToBlockchain } from '../utils/WalletService';
 import WalletPop from '../components/WalletPop';
+import { setTransactionId } from '../utils/CurrentWalletStore';
 
 const StyledCamera = styled(CameraView)
 
@@ -16,10 +17,14 @@ const ScanQRScreen = ({ navigation, route }) => {
             console.log("PARAAAMS: ", route.params)
             if (scannedData) {
                 if (route.params.sendTransaction) {
-                    if (route.params.chain === "solana")
-                        await sendSolanaTransactionToBlockchain(scannedData);
-                    else
-                        await sendEvmTransactionToBlockchain(scannedData, route.params.chain);
+                    if (route.params.chain === "solana") {
+                        const txId = await sendSolanaTransactionToBlockchain(scannedData);
+                        setTransactionId(txId);
+                    }
+                    else {
+                        const txId = await sendEvmTransactionToBlockchain(scannedData, route.params.chain);
+                        setTransactionId(txId);
+                    }
                     navigation.navigate(route.params.nextScreenName)
                 } else {
                     navigation.navigate(route.params.nextScreenName, {"data": scannedData})
