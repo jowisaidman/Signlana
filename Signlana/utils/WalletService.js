@@ -160,6 +160,25 @@ export async function getEVMWalletAddress() {
     return ethers.Wallet.fromPhrase(walletMnemonic);
 }
 
+export function getAmountPadded(amount) {
+    //const amountInWei = ethers.parseUnits(amount.toString(), 'ether').toString();
+    //const amountInWeiHexa = amountInWei.toString(16);
+    //return amountInWeiHexa.padStart(64, "0")
+    const amountInWei = ethers.parseUnits(amount.toString(), 'ether');
+    console.log("amountInWei: ", amountInWei);
+    const amountInWeiHexa = amountInWei.toString(16);
+    console.log("amountInWeiHexa: ", amountInWeiHexa);
+    return amountInWeiHexa.padStart(64, '0');
+}
+
+export function getUsdcAddress(chainId) {
+    console.log("getUsdcAddress - chainId", chainId);
+    const networks = appConfig.expo.networks.evm;
+    // find the network with attribute chanId = chainId
+    const network = networks[Object.keys(networks).find(key => networks[key].chainId === chainId)];
+    return network["USDC address"];
+}
+
 function getNodeUrl(chainId) {
     console.log("getNodeUrl - chainId", chainId);
     const networks = appConfig.expo.networks.evm;

@@ -3,8 +3,8 @@ import { StyledView, StyledImage, StyledText, StyledTouchableOpacity, StyledInpu
 import { CameraView } from 'expo-camera'
 import { styled } from 'nativewind/dist'
 import { SafeAreaView } from 'react-native';
-import { getSolanaWalletAddress, createUnsignedSolanaTransaction, getEVMWalletAddress, getNonce, getMaxFeePerGas, getMaxPriorityFeePerGas } from '../utils/WalletService';
-
+import { getSolanaWalletAddress, createUnsignedSolanaTransaction, getEVMWalletAddress, getNonce, getMaxFeePerGas, getMaxPriorityFeePerGas, getUsdcAddress, getAmountPadded } from '../utils/WalletService';
+import { network } from './YourWallet';
 import DangerIcon from "../assets/danger-icon.png"
 import CheckIcon from "../assets/check-icon.png"
 
@@ -49,18 +49,35 @@ export default function VerifyWalletGoplus({ navigation, route }) {
 
     async function buildUnsignedEvmTx(chainId, amount, currency) {
         const receiverWallet = await getEVMWalletAddress(); 
-        console.log("Currency: ", currency); // For now only ETH
-        console.log("EVM address:", receiverWallet)
-        let tx = {
-            to: receiverWallet["address"],
-            value: amount,
-            chainId,
-            nonce: await getNonce(wallet, chainId),
-            gasLimit: 200000, 
-            maxPriorityFeePerGas: await getMaxPriorityFeePerGas(chainId),
-            maxFeePerGas: await getMaxFeePerGas(chainId),
-            accessList: [],
-            data: "0x" //TODO: check for usdc
+        console.log("Currency: ", currency);
+        console.log("EVM address:", receiverWallet);
+        let tx = {};
+        let address = receiverWallet["address"].substring(2);
+        let amountInWeiPadded = getAmountPadded(amount);
+        if (currency === "usdc") {
+            tx = {
+                to: getUsdcAddress(chainId),
+                value: 0,
+                chainId,
+                nonce: await getNonce(wallet, chainId),
+                gasLimit: 200000, 
+                maxPriorityFeePerGas: await getMaxPriorityFeePerGas(chainId),
+                maxFeePerGas: await getMaxFeePerGas(chainId),
+                accessList: [],
+                data: `0xa9059cbb000000000000000000000000${address}${amountInWeiPadded}`,
+            }
+        } else {
+            tx = {
+                to: receiverWallet["address"],
+                value: amount,
+                chainId,
+                nonce: await getNonce(wallet, chainId),
+                gasLimit: 200000, 
+                maxPriorityFeePerGas: await getMaxPriorityFeePerGas(chainId),
+                maxFeePerGas: await getMaxFeePerGas(chainId),
+                accessList: [],
+                data: "0x"
+            }
         }
 
         console.log("Tx to sign: ", tx);
