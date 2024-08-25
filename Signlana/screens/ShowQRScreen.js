@@ -13,11 +13,9 @@ const ShowQRScreen = ({ navigation, route }) => {
                     Go Back
                 </StyledText>
             </StyledTouchableOpacity> */}
-            <WalletPop navigation={navigation} hideQr></WalletPop>
-            <StyledText className="text-6xl text-purple-950 font-bold">{route.params.screenTitle}</StyledText>
+            <StyledText className="text-4xl text-purple-950 font-bold mb-5">{route.params.screenTitle}</StyledText>
             <QRCode value={route.params.message} size={300} /> 
-            <StyledTouchableOpacity
-                    className="bg-[#c59eee] border-2 border-purple-950 flex items-center pt-3 gap-2 w-40 rounded-xl  mt-5"
+            <StyledTouchableOpacity className="bg-purple-350 p-3 rounded-full mt-4"
                     onPress={() => navigation.navigate(route.params.nextScreenName, route.params.nextScreenParams)}
                 >
                     <StyledText className="text-black text-xl font-semibold">Continue</StyledText>

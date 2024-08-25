@@ -46,7 +46,7 @@ const ScanQRScreen = ({ navigation, route }) => {
                 </StyledText>
             </StyledTouchableOpacity>*/}
             <WalletPop navigation={navigation} hideQr></WalletPop>
-            <StyledText className="text-6xl text-purple-950 font-bold">{route.params.screenTitle}</StyledText>
+            <StyledText className="text-4xl text-purple-950 font-bold mb-4">{route.params.screenTitle}</StyledText>
             <StyledCamera onBarcodeScanned={({ data }) => { verifyWallet(data) }} barcodeScannerSettings={{ barcodeTypes: ["qr"] }} className='w-72 h-72' />
         </StyledView>
     );

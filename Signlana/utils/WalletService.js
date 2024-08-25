@@ -149,8 +149,10 @@ export async function sendEvmTransactionToBlockchain(signedTransaction, chainId)
       try {
           const NODE_URL = getNodeUrl(chainId);
           let receipt = await fetch(NODE_URL, requestOptions);
-          console.log(`txn receipt`, await receipt.text());
-          return receipt.text().result
+          const result = await receipt.text();
+          console.log(`txn receipt`, result);
+          console.log(`txn receipt - result`, result.result);
+          return result.result
       } catch(e) {
           console.log(`Error sending tx to chain ${e}`);
       }

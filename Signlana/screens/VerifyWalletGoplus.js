@@ -86,7 +86,7 @@ export default function VerifyWalletGoplus({ navigation, route }) {
 
         console.log("Tx to sign: ", tx);
         setIsLoading(false);
-        navigation.navigate('ShowQR', { "message": JSON.stringify(tx, (key, value) => typeof value === 'bigint' ? value.toString() : value), screenTitle: "Evm Tx to Sign", nextScreenName: "ScanQR", nextScreenParams: {screenTitle: "Scan Signed Tx", nextScreenName: "SelectService", sendTransaction: true, chain: chainId} })
+        navigation.navigate('ShowQR', { "message": JSON.stringify(tx, (key, value) => typeof value === 'bigint' ? value.toString() : value), screenTitle: "Evm Tx to Sign", nextScreenName: "ScanQR", nextScreenParams: {screenTitle: "Scan Signed Tx", nextScreenName: "PaymentCompleted", sendTransaction: true, chain: chainId} })
     }
 
     async function buildSolanaTx(amount, currency) {
@@ -94,13 +94,13 @@ export default function VerifyWalletGoplus({ navigation, route }) {
         const receiverWallet = await getSolanaWalletAddress();
         const message = await createUnsignedSolanaTransaction(wallet, receiverWallet, amount);
         setIsLoading(false);
-        navigation.navigate('ShowQR', { "message": message, screenTitle: "Solana Tx to Sign", nextScreenName: "ScanQR", nextScreenParams: {screenTitle: "Scan Signed Tx", nextScreenName: "SelectService", sendTransaction: true, chain: "solana"} })
+        navigation.navigate('ShowQR', { "message": message, screenTitle: "Solana Tx to Sign", nextScreenName: "ScanQR", nextScreenParams: {screenTitle: "Scan Signed Tx", nextScreenName: "PaymentCompleted", sendTransaction: true, chain: "solana"} })
     }
 
     async function buildUnsignedTx(chain, amount, currency) {
         setIsLoading(true);
         setLoadingMessage("Creating transaction to sign");
-        setTransactionData(amount, currency, wallet);
+        setTransactionData(amount, currency, wallet, chain);
         if (chain === 'solana') {
             await buildSolanaTx(amount, currency);
         } else {
@@ -135,7 +135,7 @@ export default function VerifyWalletGoplus({ navigation, route }) {
                     {Object.entries(verificationData).map(([label, value]) => (
                         <StyledView key={label} className="w-1/4 p-2">
                             <StyledView className="bg-purple-350 rounded-lg p-1 items-center justify-center aspect-square">
-                                <StyledText className="text-xs whitespace-nowrap font-bold text-center mb-1 capitalize">{Labels[label]}</StyledText>
+                                <StyledText className="text-[11px] whitespace-nowrap font-bold text-center mb-1 capitalize">{Labels[label]}</StyledText>
                                 <StyledImage source={value == "0" ? CheckIcon : DangerIcon} tintColor="#3b0764" className="w-10 h-10"/>
                             </StyledView>
                         </StyledView>
