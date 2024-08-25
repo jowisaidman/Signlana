@@ -11,14 +11,14 @@ const SignMessageScreen = ({ route, navigation }) => {
             const wallet = await getSolanaWallet();
             const secretKeyBase58 = bs58.encode(wallet.secretKey);
             const signedMessage = signSolanaTransaction(data, secretKeyBase58);
-            navigation.navigate('ShowQR', { "message": signedMessage, screenTitle: "Solana Signed Tx", nextScreenName: "YourWallet", nextScreenParams: {}});
+            navigation.navigate('ShowQR', { "message": signedMessage, screenTitle: "Solana Signed Tx", nextScreenName: "SelectService", nextScreenParams: {}});
         } else {
             const wallet = await getEVMWalletAddress();
             console.log("Wallet in signer: ", wallet);
             console.log("Data in signer: ", data);
             const signedMessage = await signEvmTransaction(data, wallet.mnemonic.phrase)
             console.log("Signed message: ", signedMessage);
-            navigation.navigate('ShowQR', { "message": signedMessage, screenTitle: "EVM Signed Tx", nextScreenName: "YourWallet", nextScreenParams: {}});
+            navigation.navigate('ShowQR', { "message": signedMessage, screenTitle: "EVM Signed Tx", nextScreenName: "SelectService", nextScreenParams: {}});
         }
     }
 

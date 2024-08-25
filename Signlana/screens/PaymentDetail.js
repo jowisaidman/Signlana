@@ -19,9 +19,9 @@ import AvaxIcon from "../assets/avax-icon.png"
 import SelectPlus from "../components/SelectPlus"
 
 export default function PaymentDetail({ navigation }) {
-    const [currency, setCurrency] = useState('eth');
-    const [amount, setAmount] = useState(0.001)
-    const [chain, setChain] = useState(11155111)
+    const [currency, setCurrency] = useState("");
+    const [amount, setAmount] = useState(0)
+    const [chain, setChain] = useState("")
 
     console.log({ chain, amount, currency })
     return (
@@ -35,12 +35,12 @@ export default function PaymentDetail({ navigation }) {
                         </StyledText>
                         <SelectPlus data={[
                             { label: 'SOLANA', value: 'solana', icon: SOLIcon },
-                            { label: 'ETHEREUM', value: 'ethereum', icon: ETHIcon },
-                            { label: 'ARBITRUM', value: 'arbitrum', icon: ArbitrumIcon },
-                            { label: 'POLYGON', value: 'Polygon', icon: PolygonIcon },
+                            { label: 'ETHEREUM', value: 1, icon: ETHIcon },
+                            { label: 'ARBITRUM', value: 42161, icon: ArbitrumIcon },
+                            { label: 'POLYGON', value: 137, icon: PolygonIcon },
                             { label: 'ETHEREUM SEPOLIA', value: 11155111, icon: ETHIcon },
-                            { label: 'AVAX C-CHAIN', value: 'Avax C-Chain', icon: AvaxIcon },
-                            { label: 'AVAX C-CHAIN TESTNET', value: 'Avalanche Fuji C-Chain', icon: AvaxIcon },
+                            { label: 'AVAX C-CHAIN', value: 43114, icon: AvaxIcon },
+                            { label: 'AVAX C-CHAIN TESTNET', value: 43113, icon: AvaxIcon },
                         ]} setValue={setChain}></SelectPlus>
                     </StyledView>
                     <StyledView className="mb-4">
@@ -61,7 +61,7 @@ export default function PaymentDetail({ navigation }) {
                             placeholder="0.00"
                             value={amount}
                             className="w-full text-center text-4xl bg-gray-100 rounded-md p-2"
-                            onChangeText={(text) => setAmount(text)}
+                            onChangeText={(text) => parseFloat(setAmount(text.replace(",", ".")))}
                         />
                     </StyledView>
                     <StyledTouchableOpacity
