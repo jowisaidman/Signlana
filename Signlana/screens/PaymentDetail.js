@@ -38,7 +38,7 @@ export default function PaymentDetail({ navigation }) {
                             { label: 'ETHEREUM', value: 'ethereum', icon: ETHIcon },
                             { label: 'ARBITRUM', value: 'arbitrum', icon: ArbitrumIcon },
                             { label: 'POLYGON', value: 'Polygon', icon: PolygonIcon },
-                            { label: 'ETHEREUM SEPOLIA', value: 'EthereumSepolia', icon: ETHIcon },
+                            { label: 'ETHEREUM SEPOLIA', value: 11155111, icon: ETHIcon },
                             { label: 'AVAX C-CHAIN', value: 'Avax C-Chain', icon: AvaxIcon },
                             { label: 'AVAX C-CHAIN TESTNET', value: 'Avalanche Fuji C-Chain', icon: AvaxIcon },
                         ]} setValue={setChain}></SelectPlus>
