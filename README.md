@@ -1,4 +1,4 @@
-# Signlana - Secure wallet for easy payments
+# Signala - Secure wallet for easy payments
 
 Signlana is a secure mobile wallet for user friendly and fast payments in the Solana network.
 
