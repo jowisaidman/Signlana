@@ -61,7 +61,7 @@
         "Polygon Amoy": {
           "chainId": 111111,
           "rpcUrl": "https://polygon-amoy-rpc.publicnode.com",
-          "blockExplorer": "https://polygonscan.com/",
+          "blockExplorer": "https://amoy.polygonscan.com/",
           "nativeCurrency": {
             "name": "MATIC",
             "symbol": "MATIC",
