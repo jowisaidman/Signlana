@@ -14,7 +14,7 @@ import { useStore } from '@nanostores/react'
 import { $currentWallet, setCurrentWallet } from '../utils/CurrentWalletStore';
 
 
-export default function WalletPop({navigation}) {
+export default function WalletPop({navigation, hideQr = false}) {
     //Selection is open
     const [select, setSelect] = useState(false)
 
@@ -56,13 +56,13 @@ export default function WalletPop({navigation}) {
     </StyledView>
 
     return <StyledView className='absolute top-12 flex flex-row items-center gap-2'>
-        <StyledTouchableOpacity onPress={() => {
+        {/* <StyledTouchableOpacity onPress={() => {
             SecureStore.deleteItemAsync("seedPhrase").then(() => {
                 navigation.navigate("Welcome")
             })
             }} className='h-11 w-11 items-center p-4 justify-center rounded-full bg-purple-200'>
             <StyledImage source={QRCode} className='w-7 h-7'/>
-        </StyledTouchableOpacity>
+        </StyledTouchableOpacity> */}
         <StyledTouchableOpacity onPress={() => {
             setSelect(true)
         }} className=" flex flex-row rounded-full  py-2 px-2 bg-purple-200">
@@ -72,9 +72,9 @@ export default function WalletPop({navigation}) {
                 {getWalletAlias(currentWallet.wallet ?? "")}
             </StyledText>
         </StyledTouchableOpacity>
-        <StyledTouchableOpacity onPress={() => {navigation.navigate("YourWallet")}} className='h-11 w-11 items-center p-4 justify-center rounded-full bg-purple-200'>
+        {!hideQr && <StyledTouchableOpacity onPress={() => {navigation.navigate("YourWallet")}} className='h-11 w-11 items-center p-4 justify-center rounded-full bg-purple-200'>
             <StyledImage source={QRCode} className='w-7 h-7'/>
-        </StyledTouchableOpacity>
+        </StyledTouchableOpacity>}
     </StyledView>
   
 }

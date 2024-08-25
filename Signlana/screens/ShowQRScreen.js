@@ -2,16 +2,18 @@
 import React from 'react';
 import {StyledView, StyledText, StyledTouchableOpacity} from "../components/Styled"
 import QRCode from 'react-native-qrcode-svg';
+import WalletPop from '../components/WalletPop';
 
 const ShowQRScreen = ({ navigation, route }) => {
 
     return (
         <StyledView className="flex-1 justify-center items-center bg-purple-300">
-            <StyledTouchableOpacity onPress={() => { navigation.goBack() }} className="absolute top-12 left-5">
+            {/* <StyledTouchableOpacity onPress={() => { navigation.goBack() }} className="absolute top-12 left-5">
                 <StyledText className="text-lg bg-purple-200 font-semibold rounded-full px-4 py-2">
                     Go Back
                 </StyledText>
-            </StyledTouchableOpacity>
+            </StyledTouchableOpacity> */}
+            <WalletPop navigation={navigation} hideQr></WalletPop>
             <StyledText className="text-6xl text-purple-950 font-bold">{route.params.screenTitle}</StyledText>
             <QRCode value={route.params.message} size={300} /> 
             <StyledTouchableOpacity
