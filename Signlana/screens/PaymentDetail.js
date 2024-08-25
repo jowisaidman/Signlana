@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { StyledView, StyledInput, StyledText, StyledImage, StyledTouchableOpacity } from '../components/Styled'
 
 import { SafeAreaView } from 'react-native';
@@ -22,6 +22,24 @@ export default function PaymentDetail({ navigation }) {
     const [currency, setCurrency] = useState("");
     const [amount, setAmount] = useState(0)
     const [chain, setChain] = useState("")
+
+    const allCurrencies = [
+        { label: 'SOL', value: 'solana', icon: SOLIcon },
+        { label: 'ETH', value: 'ethereum', icon: ETHIcon },
+        { label: 'USDC', value: 'usdc', icon: USDCIcon },
+        { label: 'AVAX', value: 'avax', icon: AvaxIcon},
+    ]
+
+    const [currencies, setCurrencies] = useState(allCurrencies)
+
+    useEffect(() => {
+        setCurrency("")
+        if(chain == "solana"){
+            setCurrencies([{ label: 'SOL', value: 'solana', icon: SOLIcon }])
+        }else{
+            setCurrencies(allCurrencies)
+        }
+    }, [chain])
 
     console.log({ chain, amount, currency })
     return (
@@ -47,12 +65,7 @@ export default function PaymentDetail({ navigation }) {
                         <StyledText className="text-purple-950 text-lg font-semibold mr-2 mb-1">
                             Currency
                         </StyledText>
-                        <SelectPlus data={[
-                            { label: 'SOL', value: 'solana', icon: SOLIcon },
-                            { label: 'ETH', value: 'ethereum', icon: ETHIcon },
-                            { label: 'USDC', value: 'usdc', icon: USDCIcon },
-                            { label: 'AVAX', value: 'avax', icon: AvaxIcon},
-                        ]} setValue={setCurrency}></SelectPlus>
+                        <SelectPlus data={currencies} setValue={setCurrency}></SelectPlus>
                     </StyledView>
                     <StyledView className="mb-4">
                         <StyledInput

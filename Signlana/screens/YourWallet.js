@@ -16,6 +16,7 @@ import SOLIcon from "../assets/solana.png"
 import ETHIcon from "../assets/ethereum.png"
 import ArbitrumIcon from "../assets/arbitrum.png"
 import PolygonIcon from "../assets/polygon.png"
+import AvaxIcon from "../assets/avax-icon.png"
 
 import WalletPop from '../components/WalletPop';
 
@@ -55,6 +56,17 @@ const network = {
                 "decimals": 18
             },
             "USDC address": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+        },
+        "Avalanche": {
+            "chainId": 43114,
+            "rpcUrl": "https://api.avax.network/ext/bc/C/rpc",
+            "blockExplorer": "https://snowtrace.io/",
+            "nativeCurrency": {
+                "name": "AVAX",
+                "symbol": "AVAX",
+                "decimals": 18
+            },
+            "USDC address": "0xB97EF9Ef8734C71904D8002F8b6Bc66Dd9c48a6E"
         }
     },
     "solana": {
@@ -77,7 +89,8 @@ const IconList = {
     "Solana": SOLIcon,
     "Ethereum": ETHIcon,
     "Arbitrum": ArbitrumIcon,
-    "Polygon": PolygonIcon
+    "Polygon": PolygonIcon,
+    "Avalanche": AvaxIcon
 }
 
 export default function YourWallet({ navigation }) {
@@ -113,21 +126,21 @@ export default function YourWallet({ navigation }) {
                     <StyledText className='text-xs italic text-center text-purple-950 mb-5'>WARNING: this is not your wallet, you are sharing network scan URL.</StyledText>
                     <QRCode logo={IconList[scan]} size={250} value={scanUrl}></QRCode>
                     <StyledView className='flex pt-5 flex-row items-center gap-1 mb-5'>
-                        <StyledTouchableOpacity onPress={() => {openExplorer(scanUrl)}}>
-                        <StyledText  className="bg-purple-350 underline text-center text-xs mb- px-3 py-2 text-purple-950 font-semibold rounded-full">
-                            {scanUrl}
-                        </StyledText>
+                        <StyledTouchableOpacity onPress={() => { openExplorer(scanUrl) }}>
+                            <StyledText className="bg-purple-350 underline text-center text-xs mb- px-3 py-2 text-purple-950 font-semibold rounded-full">
+                                {scanUrl}
+                            </StyledText>
                         </StyledTouchableOpacity>
                         {/* <StyledImage tintColor="#3b0764" source={CopyIcon} className="w-5 h-5 bg-purple-350" /> */}
-                        
-                        <StyledTouchableOpacity onPress={() => {copyToClipboard(scanUrl)}} className="bg-purple-350 p-1 rounded-full">
+
+                        <StyledTouchableOpacity onPress={() => { copyToClipboard(scanUrl) }} className="bg-purple-350 p-1 rounded-full">
                             <StyledImage tintColor="#3b0764" source={CopyIcon} className="w-5 h-5" />
                         </StyledTouchableOpacity>
                     </StyledView>
 
-                    <StyledTouchableOpacity onPress={() => {setScan()}} className="bg-purple-350 border border-purple-950 p-1 rounded-full">
-                            <StyledText className='text-3xl font-semibold px-4 py-2 text-purple-950'>Exit</StyledText>
-                        </StyledTouchableOpacity>
+                    <StyledTouchableOpacity onPress={() => { setScan() }} className="bg-purple-350 border border-purple-950 p-1 rounded-full">
+                        <StyledText className='text-3xl font-semibold px-4 py-2 text-purple-950'>Exit</StyledText>
+                    </StyledTouchableOpacity>
                 </>
             );
         }
@@ -145,7 +158,7 @@ export default function YourWallet({ navigation }) {
                             {wallet}
                         </StyledText>
                         {/* <StyledImage tintColor="#3b0764" source={CopyIcon} className="w-5 h-5 bg-purple-350" /> */}
-                        
+
                         <StyledTouchableOpacity onPress={() => copyToClipboard(wallet)} className="bg-purple-350 p-1 rounded-full">
                             <StyledImage tintColor="#3b0764" source={CopyIcon} className="w-5 h-5" />
                         </StyledTouchableOpacity>
@@ -173,7 +186,7 @@ export default function YourWallet({ navigation }) {
 
     return (
         <StyledView className='bg-purple-300 w-full h-full flex items-center justify-center'>
-            <WalletPop navigation={navigation} hideQr/>
+            <WalletPop navigation={navigation} hideQr />
             {renderContent()}
             {/* <StyledTouchableOpacity onPress={() => { navigation.goBack() }} className="absolute top-12 left-5">
                 <StyledText className="text-lg bg-purple-200 font-semibold rounded-full px-4 py-2">
